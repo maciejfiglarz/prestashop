@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?><rss version="2.0" xml:base="https://www.prestashop.com/pl/blog/feed.xml" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:og="http://ogp.me/ns#" xmlns:article="http://ogp.me/ns/article#" xmlns:book="http://ogp.me/ns/book#" xmlns:profile="http://ogp.me/ns/profile#" xmlns:video="http://ogp.me/ns/video#" xmlns:product="http://ogp.me/ns/product#" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <channel>
+    <title>Blog Feed</title>
+    <link>https://www.prestashop.com/pl/blog/feed.xml</link>
+    <description></description>
+    <language>pl</language>
+     <atom:link href="https://www.prestashop.com/pl/blog/feed.xml" rel="self" type="application/rss+xml" />
+      <item>
+    <title>PSD2: obowiązkowe silne uwierzytelnienie do końca 2020 r.: bądźcie gotowi!</title>
+    <link>https://www.prestashop.com/pl/blog/psd2-obowiazkowe-uwierzytelnienie</link>
+    <description>Początkowo planowana na 14 września 2019 r., a następnie przełożona na marzec 2020 r., dyrektywa PSD2 powraca z całą mocą na początku nowego roku szkolnego.</description>
+     <pubDate>Fri, 25 Sep 2020 16:54:38 +0200</pubDate>
+ <dc:creator>PrestaShop Team</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/psd2-obowiazkowe-uwierzytelnienie</guid>
+  </item>
+  <item>
+    <title>Poradnik: Przepisy dotyczące e-commerce w Unii Europejskiej</title>
+    <link>https://www.prestashop.com/pl/blog/przepisy-dotyczace-e-commerce</link>
+    <description>Prowadząc sklep ze sprzedażą międzynarodową w Europie, warto znać przepisy obowiązujące w Unii Europejskiej. Poniżej wymieniliśmy najważniejsze kwestie, o których należy pamiętać.</description>
+     <pubDate>Thu, 24 Sep 2020 16:18:42 +0200</pubDate>
+ <dc:creator>luca mastroianni</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/przepisy-dotyczace-e-commerce</guid>
+  </item>
+  <item>
+    <title>Botland – biznes z pasją wspierany od 10 lat przez PrestaShop </title>
+    <link>https://www.prestashop.com/pl/blog/botland-prestashop</link>
+    <description>Botland to największy w Polsce internetowy sklep dla pasjonatów robotyki i elektroniki.</description>
+     <pubDate>Thu, 17 Sep 2020 16:55:33 +0200</pubDate>
+ <dc:creator>luca mastroianni</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/botland-prestashop</guid>
+  </item>
+  <item>
+    <title>Ważne etapy budowania firmy:  aby osiągnąć sukces, musisz się rozwijać</title>
+    <link>https://www.prestashop.com/pl/blog/sukces-musisz-rozwijac</link>
+    <description>Każdy biznes ma swój cykl życia. Pierwszy etap to wyłącznie pomysł – produkt wyobraźni, moment olśnienia w głowie przedsiębiorcy.</description>
+     <pubDate>Mon, 14 Sep 2020 14:24:31 +0200</pubDate>
+ <dc:creator>luca mastroianni</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/sukces-musisz-rozwijac</guid>
+  </item>
+  <item>
+    <title>E-commerce: Na jakie wskaźniki zwracać uwagę?</title>
+    <link>https://www.prestashop.com/pl/blog/ecommerce-wskazniki-uwage</link>
+    <description>Analizując dane firmowe, możesz zyskać wiedzę, która pozwoli zmaksymalizować sprzedaż.</description>
+     <pubDate>Thu, 10 Sep 2020 17:42:35 +0200</pubDate>
+ <dc:creator>luca mastroianni</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/ecommerce-wskazniki-uwage</guid>
+  </item>
+  <item>
+    <title>Influencer marketing: na czym polega i jak może pomóc Twojej firmie?</title>
+    <link>https://www.prestashop.com/pl/blog/influencer-marketing-ecommerce</link>
+    <description>W mediach społecznościowych można znaleźć osoby z setkami tysięcy fanów, jak również takie z kilkoma tysiącami, ale które wciąż mogą wiele zdziałać.</description>
+     <pubDate>Fri, 28 Aug 2020 14:48:22 +0200</pubDate>
+ <dc:creator>luca mastroianni</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/influencer-marketing-ecommerce</guid>
+  </item>
+  <item>
+    <title>Pięć podstawowych modułów pozwalających na przygotowanie się do nowego roku szkolnego</title>
+    <link>https://www.prestashop.com/pl/blog/powrot-do-szkoly-wybor-modulow</link>
+    <description>Choć lato, wyprzedaże i wakacje są jeszcze w pełni, szybko zbliża się czas powrotu do szkoły we wrześniu 2020 r.</description>
+     <pubDate>Fri, 31 Jul 2020 16:01:37 +0200</pubDate>
+ <dc:creator>PrestaShop Team</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/powrot-do-szkoly-wybor-modulow</guid>
+  </item>
+  <item>
+    <title>9 prostych, ale kluczowych, wskazówek, które pozwolą ci stworzyć lepszy landing page</title>
+    <link>https://www.prestashop.com/pl/blog/landing-page-wskazowki</link>
+    <description>Landing page na dobre zaistniał w krajobrazie marketingu internetowego.</description>
+     <pubDate>Fri, 17 Jul 2020 17:53:56 +0200</pubDate>
+ <dc:creator>Łukasz Gwara</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/landing-page-wskazowki</guid>
+  </item>
+  <item>
+    <title>Logistyka kryzysu: jak ważne jest zagwarantowanie business continuity</title>
+    <link>https://www.prestashop.com/pl/blog/logistyka-kryzysu-business</link>
+    <description>Już  mówiliśmy o wpływie coronawirusa na świat e-commerce i ogólnie na rynek, to wydarzenie zupełnie nieoczekiwane zrewolucjonizowało wiele sektorów naszego życia.</description>
+     <pubDate>Thu, 02 Jul 2020 18:29:00 +0200</pubDate>
+ <dc:creator>luca mastroianni</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/logistyka-kryzysu-business</guid>
+  </item>
+  <item>
+    <title>Od startup do scaleup: narzędzia potrzebne do rozwoju przedsiębiorstwa</title>
+    <link>https://www.prestashop.com/pl/blog/startup-scaleup-ecommerce</link>
+    <description>Rozmawiając o świecie biznesu i o świecie przedsiębiorstw łatwo jest popaść w błąd porównywania startup do małych przedsiębiorstw i scaleup do dużych przedsiębiorstw.</description>
+     <pubDate>Thu, 02 Jul 2020 17:56:44 +0200</pubDate>
+ <dc:creator>luca mastroianni</dc:creator>
+ <guid isPermaLink="false">https://www.prestashop.com/pl/blog/startup-scaleup-ecommerce</guid>
+  </item>
+  </channel>
+</rss>

@@ -64,7 +64,7 @@ class Topproducts extends Module
         return parent::install() &&
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader') &&
-            $this->registerHook('displayBanner');
+            $this->registerHook('displayTopPRoducts');
     }
 
     public function uninstall()

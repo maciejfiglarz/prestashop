@@ -31,8 +31,6 @@
 #header {
   background: white;
 
-    background: red !important;
-
   color: $gray;
   .logo {
     max-width: 100%;
@@ -404,6 +402,6 @@ input[type=number] {
   }
 }
 
-#header {
-  background: red !important;
-}
+// #header {
+//   background: red !important;
+// }

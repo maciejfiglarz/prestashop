@@ -20,6 +20,7 @@
       left: 90px;
       color: white;
       max-width: 340px;
+
       .caption-description p {
         color: white;
       }
@@ -54,6 +55,25 @@
     &.left,
     &.right {
       background: none;
+    }
+  }
+
+  .carousel-indicators {
+    li {
+      border-color: #fb8444;
+      background-color: #ffffff;
+    }
+    .active {
+      background-color: #fb8444;
+      
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .carousel {
+      .carousel-indicators {
+        display: none;
+      }
     }
   }
 }
@@ -98,7 +118,8 @@
       }
     }
     .carousel-control {
-      .icon-prev, .icon-next {
+      .icon-prev,
+      .icon-next {
         i {
           font-size: 2rem;
         }

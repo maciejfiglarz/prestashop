@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Kształt_92_1" data-name="Kształt 92 1" class="cls-1" d="M1487.89,59.917l-4.22-4.228a6.6,6.6,0,1,0-.98.977l4.23,4.228a0.347,0.347,0,0,0,.49,0l0.48-.489A0.337,0.337,0,0,0,1487.89,59.917Zm-9.33-3.169a5.183,5.183,0,1,1,5.19-5.183A5.191,5.191,0,0,1,1478.56,56.748Z" transform="translate(-1472 -45)"/>
+</svg>

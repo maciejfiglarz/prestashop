@@ -37,6 +37,7 @@ class Blockreassurance extends Module implements WidgetInterface
 {
     private $templateFile;
 
+    
     public function __construct()
     {
         $this->name = 'blockreassurance';

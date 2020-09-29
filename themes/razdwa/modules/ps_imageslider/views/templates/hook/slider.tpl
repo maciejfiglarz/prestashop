@@ -42,6 +42,11 @@
         </li>
       {/foreach}
     </ul>
+    <ol class="carousel-indicators">
+    {for $slidesCount=0 to ($homeslider.slides|@count)-1}
+        <li data-target="#carousel" data-slide-to="{$slidesCount}"{if $slidesCount===0} class="active"{/if}></li>
+    {/for}
+</ol> 
     <div class="direction" aria-label="{l s='Carousel buttons' d='Shop.Theme.Global'}">
       <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
         <span class="icon-prev hidden-xs" aria-hidden="true">

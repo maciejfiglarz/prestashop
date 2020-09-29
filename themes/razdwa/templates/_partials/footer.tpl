@@ -29,6 +29,7 @@
     {/block}
   </div>
 </div>
+
 <div class="footer-container">
   <div class="container">
     <div class="row">

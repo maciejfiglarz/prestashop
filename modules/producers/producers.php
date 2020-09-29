@@ -53,6 +53,7 @@ class Producers extends Module
         $this->description = $this->l('Display producers logos');
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
+        $this->templateFile = 'module:producers/views/templates/front/slider.tpl';
     }
 
     /**
@@ -64,7 +65,7 @@ class Producers extends Module
         Configuration::updateValue('PRODUCERS_LIVE_MODE', false);
 
         return parent::install() && $this->installDB() &&
-            $this->registerHook('displayProducers');
+            $this->registerHook('displayProducers') && $this->registerHook('displayHome');
     }
 
     public function uninstall()
@@ -105,12 +106,10 @@ class Producers extends Module
         if (((bool)Tools::isSubmit('submitProducersModule')) == true) {
             $this->postProcess();
         }
-        Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'producers` (`file_name`)
-        VALUES ("test.jpg")');
 
         $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'producers`';
 
-        var_dump(Db::getInstance()->executeS($sql));
+        // var_dump(Db::getInstance()->executeS($sql));
 
         $this->context->smarty->assign('module_dir', $this->_path);
 
@@ -146,6 +145,7 @@ class Producers extends Module
 
         return $helper->generateForm(array($this->getConfigForm()));
     }
+
 
     /**
      * Create the structure of your form.
@@ -186,11 +186,7 @@ class Producers extends Module
                         'name' => 'PRODUCERS_ACCOUNT_EMAIL',
                         'label' => $this->l('Email'),
                     ),
-                    // array(
-                    //     'type' => 'password',
-                    //     'name' => 'PRODUCERS_ACCOUNT_PASSWORD',
-                    //     'label' => $this->l('Password'),
-                    // ),
+
                     array(
                         'type' => 'file',
                         'name' => 'file_input',
@@ -222,7 +218,7 @@ class Producers extends Module
     protected function postProcess()
     {
         $form_values = $this->getConfigFormValues();
-        $target_dir = _PS_UPLOAD_DIR_;
+        $target_dir = $this->imagesPath;
         $target_file = $target_dir . basename($_FILES['file_input']['name']);
 
         //1
@@ -232,20 +228,22 @@ class Producers extends Module
         //     echo "Sorry, there was an error uploading your file.";
         // }
 
+        $ext = pathinfo($_FILES['file_input']['name'], PATHINFO_EXTENSION);
 
         if ($error = ImageManager::validateUpload($_FILES['file_input'])) {
-            var_dump($error);
+            return false;
         } elseif (!($tmpName = tempnam(_PS_TMP_IMG_DIR_, 'PS')) || !move_uploaded_file($_FILES['file_input']['tmp_name'], $tmpName)) {
-            var_dump('upload fail');
-        } elseif (!ImageManager::resize($tmpName, dirname(__FILE__) . '/img/' . 'test.jpg')) {
-            var_dump('resize fail');
+            return false;
+        } elseif (!ImageManager::resize($tmpName, dirname(__FILE__) . '/img/' . md5($_FILES['file_input']['name']))) {
+            return false;
         }
 
-        var_dump('tmp', $target_file, $_FILES['file_input']['tmp_name'], dirname(__FILE__));
+        unlink($tmpName);
+        Db::getInstance()->execute('INSERT INTO `' . _DB_PREFIX_ . 'producers` (`file_name`) VALUES ("' . md5($_FILES['file_input']['name']) . '.' . $ext . '")');
+
+
+        // var_dump('tmp', $target_file, $_FILES['file_input']['tmp_name'], dirname(__FILE__));
         // unlink($tmpName);
-
-
-
 
         foreach (array_keys($form_values) as $key) {
             Configuration::updateValue($key, Tools::getValue($key));
@@ -263,11 +261,25 @@ class Producers extends Module
         //     }
         // }
     }
-    /**
-     * Upload image from form input.
-     */
-    public function uploadImage()
+
+    protected function getListContent()
     {
+        $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'producers`';
+
+        return Db::getInstance()->executeS($sql);
+    }
+
+    public function hookDisplayHome()
+    {
+        $items =  $this->getListContent();
+        $i = 0;
+        foreach ($items as $item) {
+            $items[$i]['preparedUrl'] = $this->getImageURL($item['file_name']);
+            $i++;
+        }
+        // var_dump('items', $items);
+        $this->context->smarty->assign('items', $items);
+        return $this->display(__FILE__, 'views/templates/front/slider.tpl');
     }
 
     /**
@@ -290,8 +302,8 @@ class Producers extends Module
         $this->context->controller->addCSS($this->_path . '/views/css/front.css');
     }
 
-    public function hookDisplayBanner()
+    private function getImageURL($image)
     {
-        /* Place your code here. */
+        return __PS_BASE_URI__ . 'modules/' . $this->name . '/img/' . $image;
     }
 }

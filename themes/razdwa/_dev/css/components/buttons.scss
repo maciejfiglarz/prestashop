@@ -1,0 +1,20 @@
+.button {
+    border-radius: 30px;
+    border:1px solid $brand-primary;
+    padding:8px 45px;
+    margin-bottom:20px;
+    font-size:17px;
+    line-height: 24px;
+    color:black !important;
+    transition: 0.5s;
+    background:none;
+    cursor:pointer;
+    &:hover {
+      background: linear-gradient(270deg, #FABE3D 0%, #EE7E1F 100%);
+      color:White !important;
+    }
+    &__wrap {
+      display: flex;
+      justify-content: center;
+    }
+  }

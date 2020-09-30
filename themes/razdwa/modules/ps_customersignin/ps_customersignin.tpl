@@ -40,10 +40,10 @@
                         <div class="title">konto</div>
                     </div>
                 </a>
-                
-                {* <i class="material-icons">&#xE7FF;</i> *}
-                {* <span class="hidden-sm-down">{l s='Sign in' d='Shop.Theme.Actions'}</span> *}
-                </a>
+
+            {* <i class="material-icons">&#xE7FF;</i> *}
+            {* <span class="hidden-sm-down">{l s='Sign in' d='Shop.Theme.Actions'}</span> *}
+         
             {/if}
         </div>
     </div>

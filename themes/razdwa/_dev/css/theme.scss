@@ -30,27 +30,33 @@
 @import "components/customization-modal";
 @import "components/sitemap";
 @import "components/main-product";
+@import "components/form";
+@import "components/buttons";
+
 /*** HEADER ***/
 #header {
   // background: #fb8444;
   color: white;
   padding: 5px 0;
-  outline:1px solid red;
-  position:relative;
+  position: relative;
   z-index: 2;
+
   &:after {
-    content:"";
-    background: url('./../img/top.png');
+    content: "";
+    background: url("./../img/top.png");
     background-repeat: repeat-x;
-    height:220px;
-    width:100%;
-    position:absolute;
-    top:-40px;
-    left:0;
+    height: 220px;
+    width: 100%;
+    position: absolute;
+    top: -20px;
+    left: 0;
     z-index: 1;
   }
   a {
-    color: white;
+    color: whitesmoke;
+    &:hover {
+      color: white;
+    }
   }
   .logo {
     max-width: 120px;
@@ -64,15 +70,25 @@
     .category a {
       color: white;
     }
-    .popover a {
-      color: black;
+    .popover {
+      background: none;
+      // a {
+      //   color: black;
+      // }
     }
   }
   .header-nav {
-    position:relative;
+    position: relative;
     z-index: 2;
+    margin-top:10px;
     .user-info {
       display: flex;
+    }
+    .menu {
+      a {
+        text-transform: none;
+        font-weight: 500;
+      }
     }
   }
   .info {
@@ -97,6 +113,7 @@
       width: 1px;
       height: 35px;
       border-left: 1px solid #ffffff;
+      opacity: 0.5;
     }
   }
   .social-icon {
@@ -120,12 +137,16 @@
       background: white;
       color: #fb8444;
       position: absolute;
-      top: -20px;
-      right: 0;
-      font-size: 0.5rem;
-      padding: 5px;
+      top: -10px;
+      right: 2px;
+      font-size: 0.6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border-radius: 50%;
-      display: none;
+      width: 15px;
+      height: 15px;
+      font-weight:900;
     }
   }
 }
@@ -142,7 +163,7 @@ body.page-index #wrapper .container {
   padding-right: 0;
 }
 body.page-index #wrapper {
-  padding-top: 0; 
+  padding-top: 10px;
 }
 body.page-index #wrapper .featured-products,
 body.page-index #wrapper .banner,
@@ -314,9 +335,21 @@ body.page-index #wrapper #custom-text {
 }
 /*** WRAPPER ***/
 #wrapper {
-  background: $gray-light;
+  // background: $gray-light;
   box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.11);
-  padding-top: 1.563rem;
+  // padding-top: 1.563rem;
+  padding-top: 6.563rem;
+  // position:relative;
+  // &:after {
+  //   bottom:0;
+  //   left:0;
+  background-image: url("./../img/bg.png");
+  background-repeat: repeat-x;
+  background-position: bottom left;
+  // content: "";
+  // width:100%;
+  // height: 1500px;
+  // }
   .banner {
     margin-bottom: 1.5rem;
     display: block;

@@ -63,7 +63,6 @@
                 <img class="icon icon--arrow" src="{$urls.img_ps_url}arrow.svg" />
             </a>
         </div>
-
     </article>
 
 

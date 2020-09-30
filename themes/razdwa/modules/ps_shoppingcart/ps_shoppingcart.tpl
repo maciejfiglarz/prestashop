@@ -45,7 +45,7 @@
             {/if}
             <div class="cart">
                 <span><img src="{$urls.img_ps_url}cart.svg" /></span>
-                <div class="counter">({$cart.products_count})</div>
+                <div class="counter">{$cart.products_count}</div>
                 <div class="title">koszyk</div>
             </div>
             {if $cart.products_count > 0}

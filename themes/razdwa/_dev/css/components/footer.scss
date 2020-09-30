@@ -1,3 +1,11 @@
+.footer-container {
+  .map {
+    iframe{
+      border-radius:20px;
+    }
+  }
+}
+
 .block_newsletter {
   @include search-box;
   font-size: $font-size-sm;
@@ -161,7 +169,7 @@
   margin-top: $medium-space;
   padding-top: $medium-space;
   overflow: hidden;
-  box-shadow: 2px 2px 11px 0px rgba(0, 0, 0, 0.3);
+  // box-shadow: 2px 2px 11px 0px rgba(0, 0, 0, 0.3);
   li {
     margin-bottom: 0.3125rem;
   }
@@ -173,10 +181,19 @@
       color: $brand-primary;
     }
   }
+  .copyright {
+    opacity: 0.5;
+    font-size:8px;
+  }
 }
+
 .links {
+
   .collapse {
     display: inherit;
+    a {
+      color: $brand-primary;
+    }
   }
 }
 
@@ -213,7 +230,9 @@
     }
   }
   .links {
+
     .collapse {
+
       display: none;
       &.in {
         display: block;

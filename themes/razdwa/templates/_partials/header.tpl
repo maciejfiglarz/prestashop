@@ -50,7 +50,10 @@
                 </div>
 
                 <div class="info col-md-3 col-sm-12">
-
+                    <div class="cart">
+                        <span><img src="{$urls.img_ps_url}search.svg" /></span>
+                        <div class="title">szukaj</div>
+                    </div>
                     {hook h='displayNav2'}
                     <div class="social">
                         <div class="cart">

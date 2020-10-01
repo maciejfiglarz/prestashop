@@ -37,11 +37,11 @@
         <div class="container">
             <div class="row vertical-center">
                 <div class="col-md-2 hidden-sm-down" id="_desktop_logo">
-                    {* <h1> *}
-                        <a href="{$urls.base_url}">
-                            <img class="logo img-responsive" src="{$shop.logo}" alt="{$shop.name}">
-                        </a>
-                        {* </h1> *}
+
+                    <a href="{$urls.base_url}">
+                        <img class="logo img-responsive" src="{$shop.logo}" alt="{$shop.name}">
+                    </a>
+
                 </div>
 
                 <div class="col-md-7 col-sm-12 position-static">
@@ -50,10 +50,22 @@
                 </div>
 
                 <div class="info col-md-3 col-sm-12">
-                    <div class="cart">
+
+                    <div class="cart searcher__init">
                         <span><img src="{$urls.img_ps_url}search.svg" /></span>
                         <div class="title">szukaj</div>
                     </div>
+
+                    <form method="get" class="searcher display-none" action="{$urls.base_url}pl/search">
+                        <input type="hidden" name="controller" value="search">
+                        <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                        <input type="text" name="s" value="" placeholder="Wyszukaj..." aria-label="Search" class="ui-autocomplete-input searcher__input-text" autocomplete="off">
+                        <button class="searcher__button disabled-content" type="submit" disabled>
+                            <i class="material-icons search"></i>
+                            {* <span class="hidden-xl-down">Search</span> *}
+                        </button>
+                    </form>
+
                     {hook h='displayNav2'}
                     <div class="social">
                         <div class="cart">

@@ -54,3 +54,4 @@ class Ps_ShoppingcartAjaxModuleFrontController extends ModuleFrontController
         ]));
     }
 }
+

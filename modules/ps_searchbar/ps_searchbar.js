@@ -3,7 +3,7 @@ $(document).ready(function () {
     var $searchWidget = $('#search_widget');
     var $searchBox    = $searchWidget.find('input[type=text]');
     var searchURL     = $searchWidget.attr('data-search-controller-url');
-
+    console.log($searchWidget);
     $.widget('prestashop.psBlockSearchAutocomplete', $.ui.autocomplete, {
         _renderItem: function (ul, product) {
             return $("<li>")

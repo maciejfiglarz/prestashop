@@ -55,15 +55,42 @@
             </div>
             {/if}
         </div>
+
         <div class="label">
-            <a class="item" href="{$product.url}">
+
+            <form action="{$urls.pages.cart}" method="post">
+                <input type="hidden" name="token" value="{$static_token}">
+                <input type="hidden" name="id_product" value="{$product.id}">
+                {* <input type="hidden" name="id_customization" value="{$product.id_customization}" id="product_customization_id"> *}
+                <input type="hidden" name="qty" value="1">
+                <button class="item add-to-cart" data-button-action="add-to-cart">
+                    <img class="icon" src="{$urls.img_ps_url}cart.svg" />
+                </button>
+            </form>
+
+            {* <div class="item">
                 <img class="icon" src="{$urls.img_ps_url}cart.svg" />
-            </a>
+            </div> *}
+
+
+            {* <form action="http://fartner.pl/koszyk" method="post" class="add-to-cart-or-refresh">
+                <input type="hidden" name="token" value="289ffdd99d7ee3a29a6678052753096d">
+                <input type="hidden" name="id_product" value="90" class="product_page_product_id">
+                <input type="hidden" name="qty" value="1">
+                <button class="btn btn-primary add-to-cart" data-button-action="add-to-cart" type="submit">
+                    <i class="material-icons shopping-cart"></i>
+                </button>
+            </form> *}
             <a class="item" href="{$product.url}">
                 <img class="icon icon--arrow" src="{$urls.img_ps_url}arrow.svg" />
             </a>
         </div>
     </article>
+
+
+
+
+
 
 
     {* <article class="product-miniature js-product-miniature" data-id-product="{$product.id_product}" data-id-product-attribute="{$product.id_product_attribute}" itemscope itemtype="http://schema.org/Product">

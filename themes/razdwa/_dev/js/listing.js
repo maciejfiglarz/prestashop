@@ -29,7 +29,9 @@ import 'velocity-animate';
 import ProductMinitature from './components/product-miniature';
 
 $(document).ready(() => {
+  console.log('prestashop',prestashop);
   prestashop.on('clickQuickView', function (elm) {
+    console.log('elm',elm);
     let data = {
       'action': 'quickview',
       'id_product': elm.dataset.idProduct,

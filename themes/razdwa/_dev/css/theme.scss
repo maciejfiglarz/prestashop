@@ -32,6 +32,27 @@
 @import "components/main-product";
 @import "components/form";
 @import "components/buttons";
+@import "components/searcher";
+
+.display-none {
+  display: none;
+}
+.opacity-hidden {
+  opacity: 0;
+}
+.opacity-visible {
+  opacity: 1;
+}
+
+.disabled-content 
+{
+    cursor: not-allowed;
+}
+
+.disabled-content > * 
+{
+    pointer-events:none;
+}
 
 /*** HEADER ***/
 #header {
@@ -80,7 +101,7 @@
   .header-nav {
     position: relative;
     z-index: 2;
-    margin-top:10px;
+    margin-top: 10px;
     .user-info {
       display: flex;
     }
@@ -93,7 +114,6 @@
   }
   .info {
     display: flex;
-    // outline: 1px solid white;
   }
   // .blockcart {
   //   .header {
@@ -128,6 +148,9 @@
     // &:last-child {
     //   margin-right: 0;
     // }
+    border:0;
+
+    cursor: pointer;
 
     .title {
       font-size: 0.9rem;
@@ -146,7 +169,7 @@
       border-radius: 50%;
       width: 15px;
       height: 15px;
-      font-weight:900;
+      font-weight: 900;
     }
   }
 }

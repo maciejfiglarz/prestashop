@@ -1,17 +1,17 @@
 .main-products {
-  // display: -ms-flexbox;
-  // display: flex;
-  // -ms-flex-wrap: wrap;
-  // flex-wrap: wrap;
-  // -webkit-box-pack: start;
-  // -ms-flex-pack: start;
-  // justify-content: flex-start;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
 }
 .main-product {
   box-shadow: 0 10px 30px 1px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  // margin-right: 30px;
-  // width: calc(33% - 30px);
+  margin-right: 30px;
+  width: calc(33% - 30px);
   margin-bottom: 50px;
   position: relative;
   background: white;

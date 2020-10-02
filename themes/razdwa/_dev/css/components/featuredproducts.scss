@@ -1,6 +1,13 @@
 $thumbnail-size: 250px;
 $product-description-height: 70px;
 
+.featured-products {
+  margin-top:20px;
+  &:first-child{
+    margin-top:0;
+  }
+}
+
 #products,
 .featured-products,
 .product-accessories,

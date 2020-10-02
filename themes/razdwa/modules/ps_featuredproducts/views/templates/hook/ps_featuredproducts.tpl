@@ -31,18 +31,27 @@
             {/if}
         </h2>
         <div class="main-products">
-            {foreach from=$products item="product"}
-                {include file="catalog/_partials/miniatures/product.tpl" product=$product}
-            {/foreach}
+            {* <div class="row"> *}
+                {foreach from=$products item="product"}
+                    {include file="catalog/_partials/miniatures/product.tpl" product=$product}
+                {/foreach}
+            {* </div> *}
         </div>
         {* <a class="all-product-link float-xs-left float-md-right h4" href="{$allProductsLink}">
             {l s='All products' d='Shop.Theme.Catalog'}<i class="material-icons">&#xE315;</i>
         </a> *}
-        <div class="show-more__wrap">
+        {* <div class="show-more__wrap">
             <a class="show-more" href="{$allProductsLink}">
-                {* {l s='All products' d='Shop.Theme.Catalog'} *}
                 Zobacz więcej
+            </a>
+        </div> *}
+
+        <div class="button__wrap">
+            <a  class="button button--more" name="footer_contact_submit">
+                <span>Zobacz więcej</span>
             </a>
         </div>
 
     </section>
+
+    {* {l s='All products' d='Shop.Theme.Catalog'} *}

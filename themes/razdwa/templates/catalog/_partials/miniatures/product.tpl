@@ -24,7 +24,7 @@
     *}
     {block name='product_miniature_item'}
 
-    <article class="main-product col-5" data-id-product="{$product.id_product}" data-id-product-attribute="{$product.id_product_attribute}" itemscope itemtype="http://schema.org/Product">
+    <article class="main-product col-md-4" data-id-product="{$product.id_product}" data-id-product-attribute="{$product.id_product_attribute}" itemscope itemtype="http://schema.org/Product">
         {* {block name='product_thumbnail'} *}
         <div class="content">
             {if $product.cover}
@@ -37,7 +37,6 @@
             </a>
             {/if}
             <h3 class="title"><a href="{$product.url}">{$product.name|truncate:30:'...'}</a></h3>
-            {* {/block} *}
             {if $product.isbn}
             <div class="isbn">
                 <span class="">{l s='ISBN' d='Shop.Theme.Transformer'}: </span>
@@ -47,8 +46,7 @@
             {if $product.show_price}
             <div class="price">
                 {if $product.has_discount}
-                {* {hook h='displayProductPriceBlock' product=$product type="old_price"}
-                <span class="sr-only">{l s='Regular price' d='Shop.Theme.Catalog'}</span> *}
+
                 <span class="discount">{$product.regular_price}</span>
                 {/if}
                 <span class="price">{$product.price}</span>
@@ -81,13 +79,13 @@
                     <i class="material-icons shopping-cart"></i>
                 </button>
             </form> *}
-            <a class="item" href="{$product.url}">
-                <img class="icon icon--arrow" src="{$urls.img_ps_url}arrow.svg" />
+            <a class="item item--arrow" href="{$product.url}">
+                <img class="item__icon item__icon--arrow" src="{$urls.img_ps_url}arrow.svg" /> <span class="item__description">Zobacz</span>
             </a>
         </div>
     </article>
 
-
+    {/block}
 
 
 
@@ -172,4 +170,3 @@
             </div>
         </div>
     </article> *}
-    {/block}

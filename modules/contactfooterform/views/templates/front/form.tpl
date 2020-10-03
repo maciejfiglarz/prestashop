@@ -27,12 +27,12 @@
                 </div>
                 <div class="form__row form__checkbox">
                     <div class="display-none form__field-error field-error-footer field-error-footer--privacy-policy"></div>
-        
-                        <label for="privacy_policy">
-                            <input  type="checkbox" name="footer_contact_privacy-policy" id="privacy_policy" required>
-                            <span>Potwierdzam zapoznanie się z informacją o przetwarzaniu danych. Poniżej Polityka Prywatności.<br>* Pola wymagane</span>
-                        </label>
-            
+
+                    <label for="privacy_policy">
+                        <input type="checkbox" name="footer_contact_privacy-policy" id="privacy_policy" required>
+                        <span>Potwierdzam zapoznanie się z informacją o przetwarzaniu danych. Poniżej Polityka Prywatności.<br>* Pola wymagane</span>
+                    </label>
+
                 </div>
                 {* <div class="form__row">
                     <div class="form__row__col">
@@ -49,8 +49,13 @@
                             </div>
                     </div> *}
                     <div class="button__wrap">
-                        <input class="button" type="submit" name="footer_contact_submit" value="Wyślij" />
+                        <button class="button button--send" name="footer_contact_submit">
+                            <span>Wyślij</span>
+                        </button>
                     </div>
+                    {* </button>
+                    <input class="button" type="submit" name="footer_contact_submit" value="Wyślij" />
+                </div> *}
 
         </form>
     </div>

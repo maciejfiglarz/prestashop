@@ -32,7 +32,7 @@ $(document).ready(function () {
 
 const init = () => {
 
-  const submit = document.querySelector("input[name='footer_contact_submit']");
+  const submit = document.querySelector("button[name='footer_contact_submit']");
 
   submit.addEventListener("click", (e) => {
     e.preventDefault();

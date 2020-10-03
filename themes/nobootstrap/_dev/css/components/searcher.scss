@@ -1,0 +1,30 @@
+.searcher {
+  display: flex;
+  margin-right: 10px;
+  position:absolute;
+  top:0;
+  left:0;
+  height:40px;
+  transform: translateX(-65%);
+  &__init {
+  }
+  &__input-text {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 0 22px 0 22px;
+    border: 0;
+    width: 140px;
+    font-size: 13px;
+  }
+  &__button {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: $brand-primary;
+    cursor: pointer;
+    color: white;
+    border: 0;
+    &:hover {
+      background: $brand-primary-hover;
+    }
+  }
+}

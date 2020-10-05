@@ -93,6 +93,7 @@ $(document).ready(() => {
     }
 
     let $input = findCartLineProductQuantityInput($target);
+
     if (!$input) {
       return;
     }

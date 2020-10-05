@@ -1,4 +1,5 @@
 .top-menu {
+  display: block;
   &[data-depth="1"] {
     margin: 0.625rem;
   }
@@ -76,12 +77,14 @@
   padding: 15px;
   background: $brand-primary;
   color: white;
-  
+
   #top-menu {
     margin-bottom: 0.625rem;
+    display: block;
   }
   .top-menu {
     color: $gray-darker;
+
     .collapse-icons[aria-expanded="true"] {
       .add {
         display: none;
@@ -100,6 +103,20 @@
     a[data-depth="0"] {
       padding: 0.625rem;
       border-bottom: 1px solid $gray-lighter;
+      color:white;
+      &:hover {
+        color: white;
+        text-decoration: none;
+      }
+    }
+    .category {
+      outline:1px solid green;
+      display:block;
+      width:100%;
+      a{
+        width:100%;
+        outline:1px solid pink;
+      }
     }
     .collapse {
       display: none;
@@ -123,14 +140,18 @@
       width: 100%;
       min-width: 100%;
       background: white;
+      a {
+        color: white;
+      }
       ul[data-depth="0"] > li {
-        border-bottom: 1px solid $gray;
+        // border-bottom: 1px solid $gray;
       }
       ul[data-depth="1"] {
         margin: 0;
         > li {
           float: none;
           margin: 0;
+          width:100%;
           a {
             text-transform: none;
           }
@@ -157,7 +178,7 @@
   }
   .js-top-menu-bottom {
     a {
-      color: $gray;
+      color: white;
     }
     .language-selector-wrapper {
       padding: 0.625rem;

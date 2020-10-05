@@ -32,11 +32,12 @@
         </h2>
         <div class="main-products">
 
-            {* <div class="row"> *}
-                {foreach from=$products item="product"}
-                {include file="catalog/_partials/miniatures/product.tpl" product=$product}
-                {/foreach}
-            {* </div> *}
+
+            {foreach from=$products item="product"}
+            {include file="catalog/_partials/miniatures/product.tpl" product=$product}
+            {/foreach}
+
+
 
 
         </div>

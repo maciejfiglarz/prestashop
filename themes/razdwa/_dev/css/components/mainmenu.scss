@@ -74,7 +74,9 @@
 
 #mobile_top_menu_wrapper {
   padding: 15px;
-  background: white;
+  background: $brand-primary;
+  color: white;
+  
   #top-menu {
     margin-bottom: 0.625rem;
   }

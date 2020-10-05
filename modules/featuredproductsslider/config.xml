@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>featuredproductsslider</name>
+	<displayName><![CDATA[Featured Products Slider Test]]></displayName>
+	<version><![CDATA[1.0.0]]></version>
+	<description><![CDATA[Display featured products slider]]></description>
+	<author><![CDATA[Maciej]]></author>
+	<tab><![CDATA[front_office_features]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>

@@ -33,6 +33,7 @@
 @import "components/form";
 @import "components/buttons";
 @import "components/searcher";
+@import "components/swiper";
 // *{
 //   outline:1px solid red;
 // }
@@ -81,6 +82,13 @@
   }
   .logo {
     max-width: 120px;
+  }
+  #menu-icon {
+    color: white;
+    margin-right: 10px;
+    i {
+      font-size: 45px;
+    }
   }
   #_desktop_top_menu {
     margin-top: 15px;
@@ -152,9 +160,16 @@
 
     cursor: pointer;
 
+    @include media-breakpoint-down(xs) {
+      margin-right: 0;
+    }
+
     .title {
       font-size: 0.9rem;
       font-weight: 400;
+      @include media-breakpoint-down(xs) {
+        display:none;
+      }
     }
     .counter {
       background: white;
@@ -590,17 +605,23 @@ body.page-index #wrapper #custom-text {
 
 @include media-breakpoint-down(xs) {
   #header {
-    color: black;
+    // color: black;
+    background: $brand-primary;
     &:after {
       top: -30px;
       background: url("./../img/shapemobilemenu.png");
       background-repeat: repeat-x;
+      display: none;
     }
-    // .header-nav {
-    //   .info {
-    //     display: none !important;
-    //   }
-    // }
+    .header-nav {
+      .info {
+        display: none !important;
+      }
+      .mobile {
+        margin: 0 auto;
+        width: 95%;
+      }
+    }
   }
 
   #left-column,

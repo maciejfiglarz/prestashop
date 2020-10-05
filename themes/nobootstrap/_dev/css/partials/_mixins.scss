@@ -1,7 +1,25 @@
+@mixin mobile() {
+  @media screen and (max-width: #{$width-mobile}) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media (min-width: #{$width-mobile}) and (max-width: #{$width-desktop}) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @media (min-width: #{$width-desktop}) {
+    @content;
+  }
+}
+
 @mixin search-box {
   form {
     position: relative;
-    input[type=text] {
+    input[type="text"] {
       &:focus {
         outline: 3px $brand-primary solid;
         color: $gray-darker;
@@ -16,7 +34,7 @@
       color: $gray;
       border: $input-btn-border-width solid $input-border-color;
     }
-    button[type=submit] {
+    button[type="submit"] {
       position: absolute;
       background: none;
       border: none;

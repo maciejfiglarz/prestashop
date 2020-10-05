@@ -30,7 +30,7 @@
     {/block}
 
     {block name='header_nav'}
-    <nav class="header-nav" style="outline:1px solid blue;">
+    <nav class="header-nav">
         <div class="container">
             <div class="row">
                 <div class="col-md-2 hidden-sm-down" id="_desktop_logo">
@@ -59,7 +59,6 @@
                         <input type="text" name="s" value="" placeholder="Wyszukaj..." aria-label="Search" class="ui-autocomplete-input searcher__input-text" autocomplete="off">
                         <button class="searcher__button disabled-content" type="submit" disabled>
                             <i class="material-icons search"></i>
-                            {* <span class="hidden-xl-down">Search</span> *}
                         </button>
                     </form>
 

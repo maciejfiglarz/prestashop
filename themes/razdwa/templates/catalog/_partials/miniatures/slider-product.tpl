@@ -23,68 +23,68 @@
     * International Registered Trademark & Property of PrestaShop SA
     *}
     {block name='product_miniature_item'}
+        <div class="swiper-slide">
+            <article class="main-product" data-id-product="{$product.id_product}" data-id-product-attribute="{$product.id_product_attribute}" itemscope itemtype="http://schema.org/Product">
+                {* {block name='product_thumbnail'} *}
+                    <div class="content">
+                        {if $product.cover}
+                            <a href="{$product.url}" class="image">
+                                <img class="img-fluid" src="{$product.cover.bySize.home_default.url}" alt="{if !empty($product.cover.legend)}{$product.cover.legend}{else}{$product.name|truncate:30:'...'}{/if}" data-full-size-image-url="{$product.cover.large.url}" />
+                            </a>
+                        {else}
+                            <a href="{$product.url}" class="">
+                                <img class="img-fluid" src="{$urls.no_picture_image.bySize.home_default.url}" />
+                            </a>
+                        {/if}
+                        <h3 class="title"><a href="{$product.url}">{$product.name|truncate:30:'...'}</a></h3>
+                        {if $product.isbn}
+                            <div class="isbn">
+                                <span class="">{l s='ISBN' d='Shop.Theme.Transformer'}: </span>
+                                <span class="">{$product.isbn}</span>
+                            </div>
+                        {/if}
+                        {if $product.show_price}
+                            <div class="price">
+                                {if $product.has_discount}
 
-    <article class="main-product" data-id-product="{$product.id_product}" data-id-product-attribute="{$product.id_product_attribute}" itemscope itemtype="http://schema.org/Product">
-        {* {block name='product_thumbnail'} *}
-        <div class="content">
-            {if $product.cover}
-            <a href="{$product.url}" class="image">
-                <img class="img-fluid" src="{$product.cover.bySize.home_default.url}" alt="{if !empty($product.cover.legend)}{$product.cover.legend}{else}{$product.name|truncate:30:'...'}{/if}" data-full-size-image-url="{$product.cover.large.url}" />
-            </a>
-            {else}
-            <a href="{$product.url}" class="">
-                <img class="img-fluid" src="{$urls.no_picture_image.bySize.home_default.url}" />
-            </a>
-            {/if}
-            <h3 class="title"><a href="{$product.url}">{$product.name|truncate:30:'...'}</a></h3>
-            {if $product.isbn}
-            <div class="isbn">
-                <span class="">{l s='ISBN' d='Shop.Theme.Transformer'}: </span>
-                <span class="">{$product.isbn}</span>
-            </div>
-            {/if}
-            {if $product.show_price}
-            <div class="price">
-                {if $product.has_discount}
-
-                <span class="discount">{$product.regular_price}</span>
+                    <span class="discount">{$product.regular_price}</span>
+                    {/if}
+                    <span class="price">{$product.price}</span>
+                </div>
                 {/if}
-                <span class="price">{$product.price}</span>
             </div>
-            {/if}
-        </div>
 
-        <div class="label">
+            <div class="label">
 
-            <form action="{$urls.pages.cart}" method="post">
-                <input type="hidden" name="token" value="{$static_token}">
-                <input type="hidden" name="id_product" value="{$product.id}">
-                {* <input type="hidden" name="id_customization" value="{$product.id_customization}" id="product_customization_id"> *}
-                <input type="hidden" name="qty" value="1">
-                <button class="item add-to-cart" data-button-action="add-to-cart">
+                <form action="{$urls.pages.cart}" method="post">
+                    <input type="hidden" name="token" value="{$static_token}">
+                    <input type="hidden" name="id_product" value="{$product.id}">
+                    {* <input type="hidden" name="id_customization" value="{$product.id_customization}" id="product_customization_id"> *}
+                    <input type="hidden" name="qty" value="1">
+                    <button class="item add-to-cart" data-button-action="add-to-cart">
+                        <img class="icon" src="{$urls.img_ps_url}cart.svg" />
+                    </button>
+                </form>
+
+                {* <div class="item">
                     <img class="icon" src="{$urls.img_ps_url}cart.svg" />
-                </button>
-            </form>
-
-            {* <div class="item">
-                <img class="icon" src="{$urls.img_ps_url}cart.svg" />
-            </div> *}
+                </div> *}
 
 
-            {* <form action="http://fartner.pl/koszyk" method="post" class="add-to-cart-or-refresh">
-                <input type="hidden" name="token" value="289ffdd99d7ee3a29a6678052753096d">
-                <input type="hidden" name="id_product" value="90" class="product_page_product_id">
-                <input type="hidden" name="qty" value="1">
-                <button class="btn btn-primary add-to-cart" data-button-action="add-to-cart" type="submit">
-                    <i class="material-icons shopping-cart"></i>
-                </button>
-            </form> *}
-            <a class="item item--arrow" href="{$product.url}">
-                <img class="item__icon item__icon--arrow" src="{$urls.img_ps_url}arrow.svg" /> <span class="item__description">Zobacz</span>
-            </a>
-        </div>
-    </article>
-
+                {* <form action="http://fartner.pl/koszyk" method="post" class="add-to-cart-or-refresh">
+                    <input type="hidden" name="token" value="289ffdd99d7ee3a29a6678052753096d">
+                    <input type="hidden" name="id_product" value="90" class="product_page_product_id">
+                    <input type="hidden" name="qty" value="1">
+                    <button class="btn btn-primary add-to-cart" data-button-action="add-to-cart" type="submit">
+                        <i class="material-icons shopping-cart"></i>
+                    </button>
+                </form> *}
+                <a class="item item--arrow" href="{$product.url}">
+                    <img class="item__icon item__icon--arrow" src="{$urls.img_ps_url}arrow.svg" /> <span class="item__description">Zobacz</span>
+                </a>
+            </div>
+        </article>
+    </div>
     {/block}
 
 

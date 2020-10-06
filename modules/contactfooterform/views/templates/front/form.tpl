@@ -28,8 +28,14 @@
                 <div class="form__row form__checkbox">
                     <div class="display-none form__field-error field-error-footer field-error-footer--privacy-policy"></div>
 
-                    <label for="privacy_policy">
+                    {* <label for="privacy_policy">
                         <input type="checkbox" name="footer_contact_privacy-policy" id="privacy_policy" required>
+                        <span>Potwierdzam zapoznanie się z informacją o przetwarzaniu danych. Poniżej Polityka Prywatności.<br>* Pola wymagane</span>
+                    </label> *}
+
+                    <label class="checkbox">
+                        <input type="checkbox" name="footer_contact_privacy-policy" id="privacy_policy" required>
+                        <span class="checkmark"></span>
                         <span>Potwierdzam zapoznanie się z informacją o przetwarzaniu danych. Poniżej Polityka Prywatności.<br>* Pola wymagane</span>
                     </label>
 

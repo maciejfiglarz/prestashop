@@ -10,7 +10,7 @@
 *}
 
 
-<div class="swiper-container">
+{* <div class="swiper-container">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
         <!-- Slides -->
@@ -28,4 +28,18 @@
 
     <!-- If we need scrollbar -->
     <div class="swiper-scrollbar"></div>
+</div> *}
+{* <div class="container">
+    <div class="row"> *}
+        <div class="owl-carousel">
+            {* <div class="item"><img src="https://komentatory.pl/upload/graphic/2020-40/143.jpeg" alt="Owl Image"></div>
+            <div class="item"><img src="https://komentatory.pl/upload/graphic/2020-40/143.jpeg" alt="Owl Image"></div>
+            <div class="item"><img src="https://komentatory.pl/upload/graphic/2020-40/143.jpeg" alt="Owl Image"></div>
+            <div class="item"><img src="https://komentatory.pl/upload/graphic/2020-40/143.jpeg" alt="Owl Image"></div>
+            <div class="item"><img src="https://komentatory.pl/upload/graphic/2020-40/143.jpeg" alt="Owl Image"></div> *}
+            {foreach from=$products item="product"}
+            {include file="catalog/_partials/miniatures/slider-product.tpl" product=$product isSlider="1"}
+            {/foreach}
+        {* </div>
+    </div> *}
 </div>

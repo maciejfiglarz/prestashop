@@ -33,6 +33,7 @@ $(document).ready(function () {
     'updateCart',
     function (event) {
       var refreshURL = $('.blockcart').data('refresh-url');
+     
       var requestData = {};
       if (event && event.reason && typeof event.resp !== 'undefined' && !event.resp.hasError) {
         requestData = {

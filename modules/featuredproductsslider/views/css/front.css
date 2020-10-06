@@ -25,3 +25,18 @@
 * Don't forget to prefix your containers with your own identifier
 * to avoid any conflicts with others containers.
 */
+.owl-carousel {
+    height:500px;
+    width:90% !important;
+    margin:0 auto;
+    outline: 1px solid blue;
+}
+.owl-carousel .main-product {
+    width:100% !important;
+    margin-top:20px;
+    margin-right:0;
+}
+
+.owl-carousel .item__icon {
+    width:16px !important;
+}

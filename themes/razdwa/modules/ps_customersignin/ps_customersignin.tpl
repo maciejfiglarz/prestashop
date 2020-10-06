@@ -36,7 +36,7 @@
             {else}
                 <a href="{$my_account_url}" title="{l s='Log in to your customer account' d='Shop.Theme.Customeraccount'}" rel="nofollow">
                     <div class="cart">
-                        <span><img src="{$urls.img_ps_url}user.svg" /></span>
+                        <span><img class="icon" src="{$urls.img_ps_url}user.svg" /></span>
                         <div class="title">konto</div>
                     </div>
                 </a>

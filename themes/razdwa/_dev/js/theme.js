@@ -51,6 +51,10 @@ import Searcher from "./components/searcher";
 
 import Swiper, { Navigation, Pagination } from 'swiper';
 
+import "./lib/owl-carousel/owl.carousel.min.js";
+import "./lib/owl-carousel/assets/owl.carousel.min.css";
+import "./lib/owl-carousel/assets/owl.theme.default.min.css";
+
 // "inherit" EventEmitter
 for (var i in EventEmitter.prototype) {
   prestashop[i] = EventEmitter.prototype[i];
@@ -72,42 +76,28 @@ $(document).ready(() => {
 
   new Searcher().init();
 
-  var mySwiper = new Swiper('.swiper-container', {
-    // Optional parameters
-    direction: 'horizontal',
-    loop: true,
-    slidesPerView: 1,
-    spaceBetween: 10,
-    // If we need pagination
-    pagination: {
-      el: '.swiper-pagination',
-    },
+ 
 
-    breakpoints: {
-      640: {
-        slidesPerView: 2,
-        spaceBetween: 10,
-      },
-      768: {
-        slidesPerView: 3,
-        spaceBetween: 20,
-      },
-      1024: {
-        slidesPerView: 4,
-        spaceBetween: 20,
-      },
-    },
-  
-    // Navigation arrows
-    // navigation: {
-    //   nextEl: '.swiper-button-next',
-    //   prevEl: '.swiper-button-prev',
-    // },
-  
-    // And if we need scrollbar
-    // scrollbar: {
-    //   el: '.swiper-scrollbar',
-    // },
-  })
+  $(document).ready(function(){
+    $(".owl-carousel").owlCarousel({ loop:true,
+      margin:10,
+      responsiveClass:true,
+      autoPlay: 10000,
+      responsive:{
+          0:{
+              items:1,
+              nav:true
+          },
+          600:{
+              items:2,
+              nav:false
+          },
+          1000:{
+              items:4,
+              nav:true,
+              loop:false
+          }
+      }});
+  });
 
 });

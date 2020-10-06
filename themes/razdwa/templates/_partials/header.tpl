@@ -30,15 +30,71 @@
     {/block}
 
     {block name='header_nav'}
+
     <nav class="header-nav">
         <div class="container">
             <div class="row">
-                <div class="col-md-2 hidden-sm-down" id="_desktop_logo">
+                <div class="hidden-sm-down">
+                    <div class="col-md-2 hidden-sm-down" id="_desktop_logo">
+                        <a href="{$urls.base_url}">
+                            <img class="logo img-responsive" src="{$shop.logo}" alt="{$shop.name}">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-7 col-sm-12 position-static">
+                    {hook h='displayTop'}
+                    <div class="clearfix"></div>
+                </div>
 
+                <div class="info col-md-3 col-sm-12">
+
+                    <div class="cart searcher__init">
+                        <span><img src="{$urls.img_ps_url}search.svg" /></span>
+                        <div class="title">szukaj</div>
+                    </div>
+
+                    <form method="get" class="searcher display-none" action="{$urls.base_url}pl/search">
+                        <input type="hidden" name="controller" value="search">
+                        <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                        <input type="text" name="s" value="" placeholder="Wyszukaj..." aria-label="Search" class="ui-autocomplete-input searcher__input-text" autocomplete="off">
+                        <button class="searcher__button disabled-content" type="submit" disabled>
+                            <i class="material-icons search"></i>
+                        </button>
+                    </form>
+
+                    {hook h='displayNav2'}
+                    <div class="social">
+                        <div class="cart">
+                            <img class="social-icon" src="{$urls.img_ps_url}fb.svg" />
+                        </div>
+                        <div class="cart">
+                            <img class="social-icon" src="{$urls.img_ps_url}ig.svg" />
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="hidden-md-up text-sm-center mobile">
+                    <div class="float-xs-left" id="menu-icon">
+                        <i class="material-icons d-inline">&#xE5D2;</i>
+                    </div>
+                    <div class="float-xs-right" id="_mobile_cart"></div>
+                    <div class="float-xs-right" id="_mobile_user_info"></div>
+                    <div class="top-logo" id="_mobile_logo"></div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+    </nav>
+
+
+
+    {* <nav class="header-nav">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-2 hidden-sm-down" id="_desktop_logo">
                     <a href="{$urls.base_url}">
                         <img class="logo img-responsive" src="{$shop.logo}" alt="{$shop.name}">
                     </a>
-
                 </div>
 
                 <div class="col-md-7 col-sm-12 position-static">
@@ -85,11 +141,11 @@
             </div>
         </div>
 
-    </nav>
+    </nav> *}
     {/block}
 
     {block name='header_top'}
-    <div class="header-top" style="outline:1px solid red;">
+    <div class="header-top">
         <div class="container">
             <div class="row">
                 <div id="mobile_top_menu_wrapper" class="row hidden-md-up" style="display:none;">
@@ -104,6 +160,16 @@
         </div>
     </div>
     {/block}
+
+
+
+
+
+
+
+
+
+
 
 
     {* <nav class="header-nav">

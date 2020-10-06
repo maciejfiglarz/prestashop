@@ -34,9 +34,7 @@
 @import "components/buttons";
 @import "components/searcher";
 @import "components/swiper";
-// *{
-//   outline:1px solid red;
-// }
+
 .display-none {
   display: none;
 }
@@ -166,10 +164,10 @@
     .icon {
       @include media-breakpoint-down(xs) {
         height: 30px;
-        margin: 5px 0 0 5px;
+        margin: 5px 0 0 8px;
 
         &--cart {
-          margin-right: 8px;
+          margin-right: 3px;
         }
       }
     }

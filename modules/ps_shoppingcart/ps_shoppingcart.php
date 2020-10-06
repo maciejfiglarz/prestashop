@@ -94,6 +94,7 @@ class Ps_Shoppingcart extends Module implements WidgetInterface
             return;
         }
 
+        
         $this->smarty->assign($this->getWidgetVariables($hookName, $params));
 
         return $this->fetch('module:ps_shoppingcart/ps_shoppingcart.tpl');

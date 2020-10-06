@@ -38,17 +38,18 @@
         </div>
     </div> *}
 
-
-    <div class="blockcart cart-preview {if $cart.products_count > 0}active{else}inactive{/if}" data-refresh-url="{$refresh_url}">
-        {if $cart.products_count > 0}
-        <a rel="nofollow" href="{$cart_url}">
-            {/if}
-            <div class="cart">
-                <span><img src="{$urls.img_ps_url}cart.svg" /></span>
-                <div class="counter">{$cart.products_count}</div>
-                <div class="title">koszyk</div>
-            </div>
+    <div id="_desktop_cart">
+        <div class="blockcart cart-preview {if $cart.products_count > 0}active{else}inactive{/if}" data-refresh-url="{$refresh_url}">
             {if $cart.products_count > 0}
-        </a>
-        {/if}
+            <a rel="nofollow" href="{$cart_url}">
+                {/if}
+                <div class="cart">
+                    <span><img class="icon icon--cart" src="{$urls.img_ps_url}cart.svg" /></span>
+                    <div class="counter cart-products-count">{$cart.products_count}</div>
+                    <div class="title">koszyk</div>
+                </div>
+                {if $cart.products_count > 0}
+            </a>
+            {/if}
+        </div>
     </div>

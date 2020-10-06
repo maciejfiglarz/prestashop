@@ -71,7 +71,7 @@
                             <img class="social-icon" src="{$urls.img_ps_url}ig.svg" />
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="hidden-md-up text-sm-center mobile">
                     <div class="float-xs-left" id="menu-icon">
@@ -84,8 +84,6 @@
                 </div>
             </div>
     </nav>
-
-
 
     {* <nav class="header-nav">
         <div class="container">
@@ -160,6 +158,8 @@
         </div>
     </div>
     {/block}
+
+
 
 
 

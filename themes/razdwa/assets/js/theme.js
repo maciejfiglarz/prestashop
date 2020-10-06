@@ -1703,46 +1703,55 @@ __webpack_require__(130);
 
 // "inherit" EventEmitter
 for (var i in _events2["default"].prototype) {
-    _prestashop2["default"][i] = _events2["default"].prototype[i];
+  _prestashop2["default"][i] = _events2["default"].prototype[i];
 }
 
 $(document).ready(function () {
-    var dropDownEl = $(".js-dropdown");
-    var form = new _componentsForm2["default"]();
-    var topMenuEl = $('.js-top-menu ul[data-depth="0"]');
-    var dropDown = new _componentsDropDown2["default"](dropDownEl);
-    var topMenu = new _componentsTopMenu2["default"](topMenuEl);
-    var productMinitature = new _componentsProductMiniature2["default"]();
-    var productSelect = new _componentsProductSelect2["default"]();
-    dropDown.init();
-    form.init();
-    topMenu.init();
-    productMinitature.init();
-    productSelect.init();
+  var dropDownEl = $(".js-dropdown");
+  var form = new _componentsForm2["default"]();
+  var topMenuEl = $('.js-top-menu ul[data-depth="0"]');
+  var dropDown = new _componentsDropDown2["default"](dropDownEl);
+  var topMenu = new _componentsTopMenu2["default"](topMenuEl);
+  var productMinitature = new _componentsProductMiniature2["default"]();
+  var productSelect = new _componentsProductSelect2["default"]();
+  dropDown.init();
+  form.init();
+  topMenu.init();
+  productMinitature.init();
+  productSelect.init();
 
-    new _componentsSearcher2["default"]().init();
+  new _componentsSearcher2["default"]().init();
 
-    $(document).ready(function () {
-        $(".owl-carousel").owlCarousel({ loop: true,
-            margin: 10,
-            responsiveClass: true,
-            autoPlay: 10000,
-            responsive: {
-                0: {
-                    items: 1,
-                    nav: true
-                },
-                600: {
-                    items: 2,
-                    nav: false
-                },
-                1000: {
-                    items: 4,
-                    nav: true,
-                    loop: false
-                }
-            } });
+  $(document).ready(function () {
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      responsiveClass: true,
+      autoplay: true,
+      autoplayTimeout: 3000,
+      autoplayHoverPause: true,
+      nav: true,
+      navText: ["<span class='material-icons'>navigate_before</span>", "<span class='material-icons'>navigate_next</span>"],
+      responsive: {
+        0: {
+          items: 1,
+          nav: true,
+          loop: true
+        },
+        600: {
+          items: 2,
+          nav: true,
+          loop: true
+        },
+        1000: {
+          items: 4,
+          nav: true,
+          loop: false,
+          loop: true
+        }
+      }
     });
+  });
 });
 
 /***/ }),

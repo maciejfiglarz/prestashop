@@ -84,7 +84,8 @@
   }
   .top-menu {
     color: $gray-darker;
-
+    display:block;
+    outline:2px solid yellowgreen;
     .collapse-icons[aria-expanded="true"] {
       .add {
         display: none;
@@ -110,8 +111,7 @@
       }
     }
     .category {
-      outline:1px solid green;
-      display:block;
+
       width:100%;
       a{
         width:100%;
@@ -142,6 +142,10 @@
       background: white;
       a {
         color: white;
+      }
+      ul {
+        display:flex;
+        flex-direction: column;
       }
       ul[data-depth="0"] > li {
         // border-bottom: 1px solid $gray;

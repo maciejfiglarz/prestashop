@@ -127,11 +127,11 @@
       //     }
       //   }
       // }
-      .icon {
+      &__icon {
         width: 22px;
 
         &--arrow {
-          max-width: 12px;
+          max-width: 14px !important;
         }
       }
     }

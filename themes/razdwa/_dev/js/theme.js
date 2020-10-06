@@ -49,7 +49,7 @@ import "./lib/jquery.scrollbox.min";
 import "./components/block-cart";
 import Searcher from "./components/searcher";
 
-import Swiper, { Navigation, Pagination } from 'swiper';
+import Swiper, { Navigation, Pagination } from "swiper";
 
 import "./lib/owl-carousel/owl.carousel.min.js";
 import "./lib/owl-carousel/assets/owl.carousel.min.css";
@@ -76,28 +76,37 @@ $(document).ready(() => {
 
   new Searcher().init();
 
- 
-
-  $(document).ready(function(){
-    $(".owl-carousel").owlCarousel({ loop:true,
-      margin:10,
-      responsiveClass:true,
-      autoPlay: 10000,
-      responsive:{
-          0:{
-              items:1,
-              nav:true
-          },
-          600:{
-              items:2,
-              nav:false
-          },
-          1000:{
-              items:4,
-              nav:true,
-              loop:false
-          }
-      }});
+  $(document).ready(function () {
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      responsiveClass: true,
+      autoplay:true,
+      autoplayTimeout:3000,
+      autoplayHoverPause:true,
+      nav: true,
+      navText: [
+        "<span class='material-icons'>navigate_before</span>",
+        "<span class='material-icons'>navigate_next</span>",
+      ],
+      responsive: {
+        0: {
+          items: 1,
+          nav: true,
+          loop:true
+        },
+        600: {
+          items: 2,
+          nav: true,
+          loop:true
+        },
+        1000: {
+          items: 4,
+          nav: true,
+          loop: false,
+          loop:true
+        },
+      },
+    });
   });
-
 });

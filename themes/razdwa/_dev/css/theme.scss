@@ -53,6 +53,12 @@
   pointer-events: none;
 }
 
+.mobile-searcher {
+  display: flex;
+  justify-content: center;
+  padding: 14px 0 5px 0;
+}
+
 /*** HEADER ***/
 #header {
   // background: #fb8444;
@@ -644,6 +650,12 @@ body.page-index #wrapper #custom-text {
   #content-wrapper {
     padding-left: 0 !important;
     padding-right: 0 !important;
+  }
+  .owl-nav {
+    display: none !important;
+  }
+  .dropdown-item {
+    outline:1px solid red;
   }
 }
 

@@ -63,14 +63,15 @@
                     </form>
 
                     {hook h='displayNav2'}
-                    <div class="social">
+                    {* <div class="social">
                         <div class="cart">
                             <img class="social-icon" src="{$urls.img_ps_url}fb.svg" />
                         </div>
                         <div class="cart">
                             <img class="social-icon" src="{$urls.img_ps_url}ig.svg" />
                         </div>
-                    </div>
+                    </div> *}
+                    {include file="./social.tpl"}
 
                 </div>
                 <div class="hidden-md-up text-sm-center mobile">
@@ -153,6 +154,7 @@
                         <div id="_mobile_language_selector"></div>
                         <div id="_mobile_contact_link"></div>
                     </div>
+                    {include file="./social.tpl"}
                 </div>
             </div>
         </div>

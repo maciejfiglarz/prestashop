@@ -14,4 +14,5 @@
     {/foreach}
     {* <i class='fa fa-angle-left owl-prev'></i>
     <i class='fa fa-angle-right owl-next'></i> *}
+
 </div>

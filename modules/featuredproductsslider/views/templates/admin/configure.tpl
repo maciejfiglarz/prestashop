@@ -23,7 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<div class="panel">
+{* <div class="panel">
 	<h3><i class="icon icon-credit-card"></i> {l s='Featured Products Slider' mod='featuredproductsslider'}</h3>
 	<p>
 		<strong>{l s='Here is my new generic module!' mod='featuredproductsslider'}</strong><br />
@@ -45,4 +45,4 @@
 			<li><a href="#" target="_blank">{l s='French' mod='featuredproductsslider'}</a></li>
 		</ul>
 	</p>
-</div>
+</div> *}

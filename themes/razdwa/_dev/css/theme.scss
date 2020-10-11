@@ -582,7 +582,7 @@ body.page-index #wrapper #custom-text {
       background: $gray-light;
       padding-bottom: 0;
       a[data-depth="0"] {
-        color: $gray-darker;
+        color:white;
       }
       .search-widget {
         width: 100%;
@@ -653,9 +653,6 @@ body.page-index #wrapper #custom-text {
   }
   .owl-nav {
     display: none !important;
-  }
-  .dropdown-item {
-    outline:1px solid red;
   }
 }
 

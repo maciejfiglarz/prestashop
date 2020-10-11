@@ -201,6 +201,7 @@ class SearchCore
         return $string;
     }
 
+    
     public static function find(
         $id_lang,
         $expr,

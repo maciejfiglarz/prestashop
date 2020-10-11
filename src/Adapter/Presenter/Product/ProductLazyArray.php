@@ -486,6 +486,7 @@ class ProductLazyArray extends AbstractLazyArray
         return $flags;
     }
 
+    
     /**
      * @arrayAccess
      *

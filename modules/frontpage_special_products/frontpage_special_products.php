@@ -3,6 +3,17 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
+// use PrestaShop\Module\FacetedSearch\Hook\Product;
+use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
+use PrestaShop\PrestaShop\Adapter\Category\CategoryProductSearchProvider;
+use PrestaShop\PrestaShop\Adapter\Entity\Product as EntityProduct;
+use PrestaShop\PrestaShop\Adapter\Image\ImageRetriever;
+use PrestaShop\PrestaShop\Adapter\Product\PriceFormatter;
+use PrestaShop\PrestaShop\Core\Product\ProductListingPresenter;
+use PrestaShop\PrestaShop\Adapter\Product\ProductColorsRetriever;
+use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchContext;
+use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
+use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
 
 class frontpage_special_products extends Module
 {
@@ -123,10 +134,9 @@ class frontpage_special_products extends Module
         return false;
     }
 
+
     private function getFieldValue($name)
     {
-        // var_dump('name',$this->name,Configuration::get($this->name . '_input_val_' . $name));
-        var_dump('name',$this->name,$name);
         return Configuration::get($this->name . '_input_val_' . $name);
     }
 
@@ -317,57 +327,61 @@ class frontpage_special_products extends Module
         $output_forms = '';
         $this->initFieldsForm(0, 'Wyróżnione produkty u góry', 'Zapisz');
         $this->addFieldToForm(0, 'text', 'product_id_1', 'ID produktu 1', 10, false);
-        $this->addFieldToForm(0, 'textarea', 'product_desc_1', 'Opis produktu 1', 250, false);
         $this->addFieldToForm(0, 'text', 'product_id_2', 'ID produktu 2', 10, false);
-        $this->addFieldToForm(0, 'textarea', 'product_desc_2', 'Opis produktu 2', 250, false);
         $this->addFieldToForm(0, 'text', 'product_id_3', 'ID produktu 3', 10, false);
-        $this->addFieldToForm(0, 'textarea', 'product_desc_3', 'Opis produktu 3', 250, false);
+        $this->addFieldToForm(0, 'text', 'product_id_4', 'ID produktu 4', 10, false);
+        $this->addFieldToForm(0, 'text', 'product_id_5', 'ID produktu 5', 10, false);
+        $this->addFieldToForm(0, 'text', 'product_id_6', 'ID produktu 6', 10, false);
+        $this->addFieldToForm(0, 'text', 'product_id_7', 'ID produktu 7', 10, false);
+        $this->addFieldToForm(0, 'text', 'product_id_8', 'ID produktu 8', 10, false);
+        $this->addFieldToForm(0, 'text', 'product_id_9', 'ID produktu 9', 10, false);
+        $this->addFieldToForm(0, 'text', 'product_id_10', 'ID produktu 10', 10, false);
         $output_forms .= $this->generateForm('custom_form');
 
         return $output_forms;
     }
 
-
     private function getdisplayHomeVariables()
     {
         $link = new Link();
 
-        $product_1 = new Product((int) $this->getFieldValue('product_id_1'));
-        $product_2 = new Product((int) $this->getFieldValue('product_id_2'));
-        $product_3 = new Product((int) $this->getFieldValue('product_id_3'));
-
-        // var_dump($this->getFieldValue('product_id_1'),$product_1,$product_1->name[$this->lang],$this->lang);
-        var_dump($this->getFieldValue('product_id_1'));
-        return array(
-            'frontpage_special_products' => array(
-                array(
-                    'name' => $product_1->name[$this->lang],
-                    'desc' => $this->getFieldValue('product_desc_1'),
-                    'link' => $link->getProductLink($product_1),
-                    'price' => Product::getPriceStatic($product_1->id, true, null, 2, null, false),
-                    'price_diff' => Product::getPriceStatic($product_1->id, true, null, 2, null, true),
-                    'price_regular' => (Product::getPriceStatic($product_1->id, true, null, 2, null, false) + Product::getPriceStatic($product_1->id, true, null, 2, null, true)),
-                    'cover' => $link->getImageLink(isset($product_1->link_rewrite[$this->lang]) ? $product_1->link_rewrite[$this->lang] : $product_1->name[$this->lang], $product_1->getCoverWs(), 'home_default'),
-                ),
-                array(
-                    'name' => $product_2->name[$this->lang],
-                    'desc' => $this->getFieldValue('product_desc_2'),
-                    'link' => $link->getProductLink($product_2),
-                    'price' => Product::getPriceStatic($product_2->id, true, null, 2, null, false),
-                    'price_diff' => Product::getPriceStatic($product_2->id, true, null, 2, null, true),
-                    'price_regular' => (Product::getPriceStatic($product_2->id, true, null, 2, null, false) + Product::getPriceStatic($product_2->id, true, null, 2, null, true)),
-                    'cover' => $link->getImageLink(isset($product_2->link_rewrite[$this->lang]) ? $product_2->link_rewrite[$this->lang] : $product_2->name[$this->lang], $product_2->getCoverWs(), 'home_default'),
-                ),
-                array(
-                    'name' => $product_3->name[$this->lang],
-                    'desc' => $this->getFieldValue('product_desc_3'),
-                    'link' => $link->getProductLink($product_3),
-                    'price' => Product::getPriceStatic($product_3->id, true, null, 2, null, false),
-                    'price_diff' => Product::getPriceStatic($product_3->id, true, null, 2, null, true),
-                    'price_regular' => (Product::getPriceStatic($product_3->id, true, null, 2, null, false) + Product::getPriceStatic($product_3->id, true, null, 2, null, true)),
-                    'cover' => $link->getImageLink(isset($product_3->link_rewrite[$this->lang]) ? $product_3->link_rewrite[$this->lang] : $product_3->name[$this->lang], $product_3->getCoverWs(), 'home_default'),
-                )
+        $presenterFactory = new ProductPresenterFactory($this->context);
+        $presentationSettings = $presenterFactory->getPresentationSettings();
+        $presenter = new ProductListingPresenter(
+            new ImageRetriever(
+                $this->context->link
             ),
+            $this->context->link,
+            new PriceFormatter(),
+            new ProductColorsRetriever(),
+            $this->context->getTranslator()
+        );
+        $assembler = new ProductAssembler($this->context);
+
+        $query = '';
+        for ($i = 1; $i <= 10; $i++) {
+            $idString = 'product_id_' . $i;
+            $id = $this->getFieldValue($idString);
+            $query .= $i == 1 ? ' p.id_product = ' . $id :  ' OR p.id_product = ' . $id;
+        }
+        $sql = new DbQuery();
+        $sql->select('*');
+        $sql->from('product', 'p');
+
+        $sql->where($query);
+
+        $result = Db::getInstance()->executeS($sql);
+        $preparedProducts = [];
+        foreach ($result as $rawProduct) {
+            $preparedProducts[] =  $presenter->present(
+                $presentationSettings,
+                $assembler->assembleProduct($rawProduct),
+                $this->context->language
+            );
+        }
+
+        return array(
+            'frontpage_special_products' => $preparedProducts
         );
     }
 

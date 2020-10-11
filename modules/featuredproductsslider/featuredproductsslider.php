@@ -34,7 +34,7 @@ use PrestaShop\PrestaShop\Adapter\Product\ProductColorsRetriever;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchContext;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
-
+use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchResult;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -65,15 +65,25 @@ class Featuredproductsslider extends Module
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
         $this->templateFile = 'module:featuredproductsslider/views/templates/front/list.tpl';
+
+        $this->allCategories = Category::getAllCategoriesName(null, $this->context->language->id);
     }
 
     /**
-     * Don't forget to create update methods if needed:
-     * http://doc.prestashop.com/display/PS16/Enabling+the+Auto-Update
+     * Install module
      */
     public function install()
     {
         Configuration::updateValue('FEATUREDPRODUCTSSLIDER_LIVE_MODE', false);
+
+        // FEATURE, CATEGORY
+        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR', 'FEATURE');
+
+        //NEWEST, BESTSELLERS, SALE 
+        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE', 'NEWEST');
+        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', Context::getContext()->shop->getCategory());
+        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', false);
+        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_NBR', 8);
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -131,6 +141,7 @@ class Featuredproductsslider extends Module
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
         );
+        $helper->field_values = ['FEATUREDPRODUCTSSLIDER_TYPE_FEATURE' => 'SALE'];
 
         return $helper->generateForm(array($this->getConfigForm()));
     }
@@ -140,19 +151,31 @@ class Featuredproductsslider extends Module
      */
     protected function getConfigForm()
     {
+
+        $preparedCategory = [];
+        foreach ($this->allCategories as $index => $category) {
+            $preparedCategory[] = ['key' => $index, 'name' => $category['name']];
+        }
+
+
+        dump(Configuration::get('FEATUREDPRODUCTSSLIDER_NBR'));
+        dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR'));
+        dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE'));
+        dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'));
+
         return array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('Settings'),
+                    'title' => 'Ustawienia',
                     'icon' => 'icon-cogs',
                 ),
                 'input' => array(
                     array(
                         'type' => 'switch',
-                        'label' => $this->l('Live mode'),
+                        'label' => 'Widoczny',
                         'name' => 'FEATUREDPRODUCTSSLIDER_LIVE_MODE',
                         'is_bool' => true,
-                        'desc' => $this->l('Use this module in live mode'),
+                        'desc' => $this->l('Aktywuj lub dezaktywuj wtyczkę'),
                         'values' => array(
                             array(
                                 'id' => 'active_on',
@@ -167,17 +190,56 @@ class Featuredproductsslider extends Module
                         ),
                     ),
                     array(
-                        'col' => 3,
                         'type' => 'text',
-                        'prefix' => '<i class="icon icon-envelope"></i>',
-                        'desc' => $this->l('Enter a valid email address'),
-                        'name' => 'FEATUREDPRODUCTSSLIDER_ACCOUNT_EMAIL',
-                        'label' => $this->l('Email'),
+                        'label' => $this->trans('Number of products to be displayed', array(), 'Modules.Featuredproducts.Admin'),
+                        'name' => 'FEATUREDPRODUCTSSLIDER_NBR',
+                        'class' => 'fixed-width-xs',
+                        'desc' => $this->trans('Set the number of products that you would like to display on homepage (default: 8).', array(), 'Modules.Featuredproducts.Admin'),
                     ),
                     array(
-                        'type' => 'password',
-                        'name' => 'FEATUREDPRODUCTSSLIDER_ACCOUNT_PASSWORD',
-                        'label' => $this->l('Password'),
+                        'type' => 'radio',
+                        'label' => 'Pokaż według',
+                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR',
+                        // 'desc' => $this->l('Use this module in live mode'),
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 'true',
+                                'label' => 'Właściwości'
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 'false',
+                                'label' => 'Kategorii'
+                            )
+                        ),
+                    ),
+                    array(
+                        'type' => 'select',
+                        'label' => $this->l('Cechy'),
+                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_FEATURE',
+                        'multiple' => false,
+                        'options' => array(
+                            'query' => array(
+                                array('key' => 'NEWEST', 'name' => 'Najnowsze'),
+                                array('key' => 'BESTSELLERS', 'name' => 'Bestsellery'),
+                                array('key' => 'SALE', 'name' => 'Wyprzedaże'),
+                            ),
+                            'id' => 'key',
+                            'name' => 'name',
+
+                        )
+                    ),
+                    array(
+                        'type' => 'select',
+                        'label' => $this->l('Kategorie'),
+                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY',
+                        'multiple' => false,
+                        'options' => array(
+                            'query' => $preparedCategory,
+                            'id' => 'key',
+                            'name' => 'name'
+                        ),
                     ),
                 ),
                 'submit' => array(
@@ -186,7 +248,7 @@ class Featuredproductsslider extends Module
             ),
         );
     }
-
+    // $this->$allCategories 
     /**
      * Set values for the inputs.
      */
@@ -194,8 +256,10 @@ class Featuredproductsslider extends Module
     {
         return array(
             'FEATUREDPRODUCTSSLIDER_LIVE_MODE' => Configuration::get('FEATUREDPRODUCTSSLIDER_LIVE_MODE', true),
-            'FEATUREDPRODUCTSSLIDER_ACCOUNT_EMAIL' => Configuration::get('FEATUREDPRODUCTSSLIDER_ACCOUNT_EMAIL', 'contact@prestashop.com'),
-            'FEATUREDPRODUCTSSLIDER_ACCOUNT_PASSWORD' => Configuration::get('FEATUREDPRODUCTSSLIDER_ACCOUNT_PASSWORD', null),
+            'FEATUREDPRODUCTSSLIDER_NBR' => Configuration::get('FEATUREDPRODUCTSSLIDER_NBR'),
+            'FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR'),
+            'FEATUREDPRODUCTSSLIDER_TYPE_FEATURE' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE'),
+            'FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'),
         );
     }
 
@@ -237,7 +301,7 @@ class Featuredproductsslider extends Module
         // if (!$this->isCached($this->templateFile, $this->getCacheId('ps_featuredproducts'))) {
         // var_dump('variables',$variables);
         // if (empty($variables)) {
-            $this->smarty->assign($variables);
+        $this->smarty->assign($variables);
         // }
 
         // }
@@ -270,7 +334,6 @@ class Featuredproductsslider extends Module
         $context = new ProductSearchContext($this->context);
 
         $query = new ProductSearchQuery();
-
         $nProducts = Configuration::get('HOME_FEATURED_NBR');
         if ($nProducts < 0) {
             $nProducts = 12;
@@ -279,6 +342,10 @@ class Featuredproductsslider extends Module
         $query
             ->setResultsPerPage($nProducts)
             ->setPage(1);
+
+        $sql = new DbQuery();
+
+
 
         if (Configuration::get('HOME_FEATURED_RANDOMIZE')) {
             $query->setSortOrder(SortOrder::random());
@@ -295,6 +362,7 @@ class Featuredproductsslider extends Module
 
         $presenterFactory = new ProductPresenterFactory($this->context);
         $presentationSettings = $presenterFactory->getPresentationSettings();
+
         $presenter = new ProductListingPresenter(
             new ImageRetriever(
                 $this->context->link
@@ -306,7 +374,7 @@ class Featuredproductsslider extends Module
         );
 
         $products_for_template = [];
-        // var_dump($result->getProducts());
+
         foreach ($result->getProducts() as $rawProduct) {
             $products_for_template[] = $presenter->present(
                 $presentationSettings,
@@ -314,7 +382,6 @@ class Featuredproductsslider extends Module
                 $this->context->language
             );
         }
-        // var_dump($products_for_template);
         return $products_for_template;
     }
     public function getConfigFieldsValues()

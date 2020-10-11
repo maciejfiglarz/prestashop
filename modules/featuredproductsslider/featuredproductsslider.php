@@ -79,10 +79,10 @@ class Featuredproductsslider extends Module
         // FEATURE, CATEGORY
         Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR', 'FEATURE');
 
-        //NEWEST, BESTSELLERS, SALE 
+        //NEWEST, BESTSELLERS, SALE. RANDOM
         Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE', 'NEWEST');
         // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', Context::getContext()->shop->getCategory());
-        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', false);
+        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', 2);
         Configuration::updateValue('FEATUREDPRODUCTSSLIDER_NBR', 8);
 
         return parent::install() &&
@@ -141,7 +141,6 @@ class Featuredproductsslider extends Module
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
         );
-        $helper->field_values = ['FEATUREDPRODUCTSSLIDER_TYPE_FEATURE' => 'SALE'];
 
         return $helper->generateForm(array($this->getConfigForm()));
     }
@@ -157,6 +156,7 @@ class Featuredproductsslider extends Module
             $preparedCategory[] = ['key' => $index, 'name' => $category['name']];
         }
 
+        // array_push($preparedCategory, ['key' => 'no-category', 'name' => 'Bez kategorii']);
 
         dump(Configuration::get('FEATUREDPRODUCTSSLIDER_NBR'));
         dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR'));
@@ -203,15 +203,15 @@ class Featuredproductsslider extends Module
                         // 'desc' => $this->l('Use this module in live mode'),
                         'values' => array(
                             array(
-                                'id' => 'active_on',
-                                'value' => 'true',
-                                'label' => 'Właściwości'
+                                'id' => 'active_off',
+                                'value' => 'CATEGORY',
+                                'label' => 'Kategorii'
                             ),
                             array(
-                                'id' => 'active_off',
-                                'value' => 'false',
-                                'label' => 'Kategorii'
-                            )
+                                'id' => 'active_on',
+                                'value' => 'FEATURE',
+                                'label' => 'Właściwości'
+                            ),
                         ),
                     ),
                     array(
@@ -224,6 +224,7 @@ class Featuredproductsslider extends Module
                                 array('key' => 'NEWEST', 'name' => 'Najnowsze'),
                                 array('key' => 'BESTSELLERS', 'name' => 'Bestsellery'),
                                 array('key' => 'SALE', 'name' => 'Wyprzedaże'),
+                                array('key' => 'RANDOM', 'name' => 'Losowe'),
                             ),
                             'id' => 'key',
                             'name' => 'name',
@@ -280,10 +281,10 @@ class Featuredproductsslider extends Module
      */
     public function hookBackOfficeHeader()
     {
-        if (Tools::getValue('module_name') == $this->name) {
-            $this->context->controller->addJS($this->_path . 'views/js/back.js');
-            $this->context->controller->addCSS($this->_path . 'views/css/back.css');
-        }
+        // if (Tools::getValue('module_name') == $this->name) {
+        $this->context->controller->addJS($this->_path . 'views/js/back.js');
+        $this->context->controller->addCSS($this->_path . 'views/css/back.css');
+        // }
     }
 
     /**
@@ -324,7 +325,8 @@ class Featuredproductsslider extends Module
 
     protected function getProducts()
     {
-        $category = new Category((int) Configuration::get('HOME_FEATURED_CAT'));
+
+        $category = new Category((int) Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'));
 
         $searchProvider = new CategoryProductSearchProvider(
             $this->context->getTranslator(),
@@ -334,21 +336,23 @@ class Featuredproductsslider extends Module
         $context = new ProductSearchContext($this->context);
 
         $query = new ProductSearchQuery();
-        $nProducts = Configuration::get('HOME_FEATURED_NBR');
+
+        $nProducts = Configuration::get('FEATUREDPRODUCTSSLIDER_NBR');
         if ($nProducts < 0) {
             $nProducts = 12;
         }
-
+        
         $query
             ->setResultsPerPage($nProducts)
             ->setPage(1);
 
-        $sql = new DbQuery();
-
-
-
-        if (Configuration::get('HOME_FEATURED_RANDOMIZE')) {
+        if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'RANDOM') {
             $query->setSortOrder(SortOrder::random());
+        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'SALE') {
+
+        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'BESTSELLERS') {
+            // $query->setSortOrder(new SortOrder('product', 'sales', 'desc'));
+            dump('x', ProductSale::getBestSales($this->context->language->id, 0, $nProducts));
         } else {
             $query->setSortOrder(new SortOrder('product', 'position', 'asc'));
         }

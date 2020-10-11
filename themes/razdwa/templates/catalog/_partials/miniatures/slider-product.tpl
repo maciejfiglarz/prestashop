@@ -49,7 +49,7 @@
 
                     <span class="discount">{$product.regular_price}</span>
                     {/if}
-                    <span class="price">{$product.price}</span>
+                    <span class="price">{$product.price} {$product.id}</span>
                 </div>
                 {/if}
             </div>

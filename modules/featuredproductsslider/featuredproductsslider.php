@@ -341,7 +341,6 @@ class Featuredproductsslider extends Module
         if ($nProducts < 0) {
             $nProducts = 12;
         }
-        
         $query
             ->setResultsPerPage($nProducts)
             ->setPage(1);
@@ -349,10 +348,12 @@ class Featuredproductsslider extends Module
         if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'RANDOM') {
             $query->setSortOrder(SortOrder::random());
         } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'SALE') {
-
+            dump('sale',Product::getPricesDrop($this->context->language->id, 0, $nProducts, false));
+            $query->setQueryType('prices-drop');
         } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'BESTSELLERS') {
             // $query->setSortOrder(new SortOrder('product', 'sales', 'desc'));
-            dump('x', ProductSale::getBestSales($this->context->language->id, 0, $nProducts));
+            dump('n', ProductSale::getNbSales());
+            dump('products', ProductSale::getBestSales($this->context->language->id, 0, $nProducts));
         } else {
             $query->setSortOrder(new SortOrder('product', 'position', 'asc'));
         }

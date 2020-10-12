@@ -2133,8 +2133,8 @@ class ToolsCore
 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
-            curl_setopt($curl, CURLOPT_TIMEOUT, $curl_timeout);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 150);
+            curl_setopt($curl, CURLOPT_TIMEOUT, intval($curl_timeout) + 50);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
             curl_setopt($curl, CURLOPT_CAINFO, _PS_CACHE_CA_CERT_FILE_);
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);

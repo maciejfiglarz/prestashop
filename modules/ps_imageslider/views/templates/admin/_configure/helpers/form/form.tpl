@@ -24,6 +24,7 @@
  *}
 
 {extends file="helpers/form/form.tpl"}
+    <div class="panel">
 {block name="field"}
 	{if $input.type == 'file_lang'}
 		<div class="row">

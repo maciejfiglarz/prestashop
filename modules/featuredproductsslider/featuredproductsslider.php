@@ -88,7 +88,11 @@ class Featuredproductsslider extends Module
         return parent::install() &&
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader') &&
-            $this->registerHook('displayHome') && $this->registerHook('displayHomeBottom');
+            $this->registerHook('displayHome') && 
+            $this->registerHook('displayHomeSlider1') && 
+            $this->registerHook('displayHomeSlider2') &&
+            $this->registerHook('displayHomeSlider3') &&
+            $this->registerHook('displayHomeSlider4');
     }
 
     public function uninstall()
@@ -347,18 +351,23 @@ class Featuredproductsslider extends Module
             ->setPage(1);
 
         if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'RANDOM') {
-            dump('random');
+            // dump('random');
             $query->setSortOrder(SortOrder::random());
         } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'SALE') {
-            dump('sale',Product::getPricesDrop($this->context->language->id, 0, $nProducts, false));
-            // $query->setQueryType('prices-drop');
+            // dump('sale');
+            $query
+                ->setQueryType('prices-drop')
+                ->setSortOrder(new SortOrder('product', 'name', 'asc'));
         } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'BESTSELLERS') {
-            // $query->setSortOrder(new SortOrder('product', 'sales', 'desc'));
-            dump('n', ProductSale::getNbSales());
-            dump('products', ProductSale::getBestSales($this->context->language->id, 0, $nProducts));
+            // dump('BESTSELLERS');
+            $query
+                ->setQueryType('best-sales')
+                ->setSortOrder(new SortOrder('product', 'name', 'asc'));
         } else {
-            dump('newest');
-            $query->setSortOrder(new SortOrder('product', 'position', 'asc'));
+            // dump('newest');
+            $query
+                ->setQueryType('new-products')
+                ->setSortOrder(new SortOrder('product', 'date_add', 'desc'));
         }
 
         $result = $searchProvider->runQuery(

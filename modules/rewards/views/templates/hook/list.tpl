@@ -11,15 +11,15 @@
     <div id="slidesContent">
         <div id="slides">
             {foreach from=$rewards item=reward}
-        
-                <div id="slides_{$reward.id_reward}" class="panel">
-                    <div class="row">
-                        <div class="col-lg-1">
-                            <span><i class="icon-arrows "></i></span>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="{$image_baseurl}{$reward.image}" alt="{$reward.title}" class="img-thumbnail" />
-                        </div>
+
+            <div id="slides_{$reward.id_reward}" class="panel">
+                <div class="row">
+                    <div class="col-lg-1">
+                        <span><i class="icon-arrows "></i></span>
+                    </div>
+                    <div class="col-md-3">
+                        <img src="{$image_baseurl}{$reward.image}" alt="{$reward.title}" class="img-thumbnail" />
+                    </div>
 
                     <div class="col-md-8">
                         <h4 class="pull-left">
@@ -27,19 +27,12 @@
 
                         </h4>
                         <div class="btn-group-action pull-right">
-                        {$reward.status}
-                            {* {if $reward.active}
-                            <div>
-                                <span class="label color_field pull-left" style="background-color:#108510;color:white;margin-top:5px;">
-                                  Zdjęcie widoczne
-                                </span>
-                            </div>
-                            {/if} *}
-                            <a class="btn btn-default" href="{$link->getAdminLink('AdminModules')}&configure=rewards&edit=1&id_reward={$reward.id_reward}">
+                            {$reward.status}
+                            <a class="btn btn-default" href="{$link->getAdminLink('AdminModules')}&configure=rewards&addReward&id_reward={$reward.id_reward}">
                                 <i class="icon-edit"></i>
                                 {l s='Edit' d='Admin.Actions'}
                             </a>
-                            <a class="btn btn-default" href="{$link->getAdminLink('AdminModules')}&configure=rewards&delete_id_reward={$reward.id_reward}">
+                            <a class="btn btn-default" href="{$link->getAdminLink('AdminModules')}&configure=rewards&deleteReward={$reward.id_reward}">
                                 <i class="icon-trash"></i>
                                 {l s='Delete' d='Admin.Actions'}
                             </a>

@@ -54,14 +54,14 @@ class Rewards extends Module
          * Set $this->bootstrap to true if your module is compliant with bootstrap (PrestaShop 1.6)
          */
         $this->bootstrap = true;
-
+        
         parent::__construct();
 
         $this->displayName = $this->l('Display Rewards');
         $this->description = $this->l('Display rewards on homepage');
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
-        $this->templateFile = 'module:ps_rewards/views/templates/hook/slider.tpl';
+        $this->templateFile = 'module:ps_rewards/views/templates/hook/gallery.tpl';
     }
 
     /**
@@ -74,9 +74,10 @@ class Rewards extends Module
         Configuration::updateValue('REWARDS_TITLE', 'Nasze nagrody');
 
         $this->createTables();
-        return parent::install() &&
-            $this->registerHook('displayHomeBottom') &&
-            $this->registerHook('backOfficeHeader');
+        return parent::install() 
+            && $this->registerHook('header') 
+            && $this->registerHook('displayHomeBottom') 
+            && $this->registerHook('backOfficeHeader');
     }
 
     public function uninstall()
@@ -87,20 +88,77 @@ class Rewards extends Module
         return parent::uninstall();
     }
 
+
+    public function uploadImage($reward, $errors)
+    {
+        $type = Tools::strtolower(Tools::substr(strrchr($_FILES['image']['name'], '.'), 1));
+        $imagesize = @getimagesize($_FILES['image']['tmp_name']);
+
+        if (
+            isset($_FILES['image']) &&
+            isset($_FILES['image']['tmp_name']) &&
+            !empty($_FILES['image']['tmp_name']) &&
+            !empty($imagesize) &&
+            in_array(
+                Tools::strtolower(Tools::substr(strrchr($imagesize['mime'], '/'), 1)),
+                array(
+                    'jpg',
+                    'gif',
+                    'jpeg',
+                    'png'
+                )
+            ) &&
+            in_array($type, array('jpg', 'gif', 'jpeg', 'png'))
+        ) {
+            $temp_name = tempnam(_PS_TMP_IMG_DIR_, 'PS');
+            $salt = sha1(microtime());
+            if ($error = ImageManager::validateUpload($_FILES['image'])) {
+                $errors[] = $error;
+            } elseif (!$temp_name || !move_uploaded_file($_FILES['image']['tmp_name'], $temp_name)) {
+                return false;
+            } elseif (!ImageManager::resize($temp_name, __DIR__ . '/images/' . $salt . '_' . $_FILES['image']['name'], null, null, $type)) {
+                $errors[] = $this->displayError($this->getTranslator()->trans('An error occurred during the image upload process.', array(), 'Admin.Notifications.Error'));
+            }
+            $reward->image = $salt . '_' . $_FILES['image']['name'];
+        } elseif (Tools::getValue('image_old') != '') {
+            $reward->image = Tools::getValue('image_old');
+        }
+
+        return ['reward' => $reward, 'errors' => $errors];
+    }
+
+    public function saveReward($reward, $errors)
+    {
+
+        if (!$errors) {
+            /* Adds */
+            if (!Tools::getValue('id_reward')) {
+                if (!$reward->add()) {
+                    $errors[] = $this->displayError($this->getTranslator()->trans('The slide could not be added.', array(), 'Modules.Imageslider.Admin'));
+                }
+            } elseif (!$reward->update()) {
+                dump('err');
+                $errors[] = $this->displayError($this->getTranslator()->trans('The slide could not be updated.', array(), 'Modules.Imageslider.Admin'));
+                dump('updated');
+            }
+            $this->clearCache();
+        }
+    }
+
     /**
      * Load the configuration form
      */
     public function getContent()
     {
         $errors = array();
-        $shop_context = Shop::getContext();
+
         if (((bool)Tools::isSubmit('submitRewardsModule')) == true) {
             $this->postProcess();
+            $this->_html .= $this->renderForm();
+            $this->_html .= $this->renderList();
         } else if (Tools::isSubmit('addReward')) {
             $this->_html .= $this->renderAddForm();
-        } else if (Tools::getValue('edit')) {
-            $this->_html .= $this->renderAddForm();
-        } else if (Tools::isSubmit('submitReward')) {
+        } else if (Tools::isSubmit('submitReward') || (Tools::isSubmit('addReward') && Tools::getValue('id_reward'))) {
             if (Tools::getValue('id_reward')) {
                 $reward = new RewardsModel((int)Tools::getValue('id_reward'));
                 if (!Validate::isLoadedObject($reward)) {
@@ -114,68 +172,21 @@ class Rewards extends Module
             }
             $reward->active = 1;
             $reward->title = Tools::getValue('title');
-            $type = Tools::strtolower(Tools::substr(strrchr($_FILES['image']['name'], '.'), 1));
-            $imagesize = @getimagesize($_FILES['image']['tmp_name']);
 
-            if (
-                isset($_FILES['image']) &&
-                isset($_FILES['image']['tmp_name']) &&
-                !empty($_FILES['image']['tmp_name']) &&
-                !empty($imagesize) &&
-                in_array(
-                    Tools::strtolower(Tools::substr(strrchr($imagesize['mime'], '/'), 1)),
-                    array(
-                        'jpg',
-                        'gif',
-                        'jpeg',
-                        'png'
-                    )
-                ) &&
-                in_array($type, array('jpg', 'gif', 'jpeg', 'png'))
-            ) {
-                $temp_name = tempnam(_PS_TMP_IMG_DIR_, 'PS');
-                $salt = sha1(microtime());
-                if ($error = ImageManager::validateUpload($_FILES['image'])) {
-                    $errors[] = $error;
-                    dump('errors', $errors);
-                } elseif (!$temp_name || !move_uploaded_file($_FILES['image']['tmp_name'], $temp_name)) {
-                    dump('not upload');
-                    return false;
-                } elseif (!ImageManager::resize($temp_name, __DIR__ . '/images/' . $salt . '_' . $_FILES['image']['name'], null, null, $type)) {
-                    dump('not resie');
-                    $errors[] = $this->displayError($this->getTranslator()->trans('An error occurred during the image upload process.', array(), 'Admin.Notifications.Error'));
-                }
-                $reward->image = $salt . '_' . $_FILES['image']['name'];
-            } elseif (Tools::getValue('image_old') != '') {
-                $reward->image = Tools::getValue('image_old');
-            }
-
-            /* Processes if no errors  */
-            if (!$errors) {
-                /* Adds */
-                if (!Tools::getValue('id_reward')) {
-                    if (!$reward->add()) {
-                        $errors[] = $this->displayError($this->getTranslator()->trans('The slide could not be added.', array(), 'Modules.Imageslider.Admin'));
-                    }
-                } elseif (!$reward->update()) {
-                    $errors[] = $this->displayError($this->getTranslator()->trans('The slide could not be updated.', array(), 'Modules.Imageslider.Admin'));
-                }
-                $this->clearCache();
-            }
-
+            $data =  $this->uploadImage($reward, $errors);
+            $this->saveReward($data['reward'], $data['errors']);
             $this->clearCache();
-            $this->_html .= $this->renderForm();
-            $this->_html .= $this->renderList();
-        } else if ((Tools::isSubmit('changeStatus') && Tools::isSubmit('id_reward'))) {
+            Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules', true) . '&conf=4&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name);
 
+        } else if ((Tools::isSubmit('changeStatus') && Tools::isSubmit('id_reward'))) {
             $slide = new RewardsModel((int)Tools::getValue('id_reward'));
             $slide->active == 0 ? $slide->active = 1 : $slide->active = 0;
             $res = $slide->update();
             $this->clearCache();
             $this->_html .= ($res ? $this->displayConfirmation($this->getTranslator()->trans('Configuration updated', array(), 'Admin.Notifications.Success')) : $this->displayError($this->getTranslator()->trans('The configuration could not be updated.', array(), 'Modules.Imageslider.Admin')));
-            $this->_html .= $this->renderAddForm();
-        } elseif (Tools::isSubmit('delete_id_reward')) {
-            $slide = new RewardsModel((int)Tools::getValue('delete_id_reward'));
+            Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules', true) . '&conf=4&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name);
+        } elseif (Tools::isSubmit('deleteReward')) {
+            $slide = new RewardsModel((int)Tools::getValue('deleteReward'));
             $res = $slide->delete();
             $this->clearCache();
             if (!$res) {
@@ -183,7 +194,84 @@ class Rewards extends Module
             } else {
                 Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules', true) . '&conf=1&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name);
             }
-        } else {
+        }
+
+        // if (((bool)Tools::isSubmit('submitRewardsModule')) == true) {
+        //     $this->postProcess();
+        //     $this->_html .= $this->renderForm();
+        //     $this->_html .= $this->renderList();
+        // } else if (Tools::isSubmit('addReward')) {
+        //     $this->_html .= $this->renderAddForm();
+        // } else if (Tools::isSubmit('submitReward')) {
+        //     if (Tools::getValue('id_reward')) {
+        //         dump('jest id_reward', Tools::getValue('id_reward'));
+        //         $reward = new RewardsModel((int)Tools::getValue('id_reward'));
+        //         if (!Validate::isLoadedObject($reward)) {
+        //             $this->_html .= $this->displayError($this->getTranslator()->trans('Invalid slide ID', array(), 'Modules.Imageslider.Admin'));
+        //             return false;
+        //         }
+        //     } else {
+        //         $reward = new RewardsModel();
+        //         /* Sets position */
+        //         $reward->position = (int)$this->getNextPosition();
+        //     }
+        //     $reward->active = 1;
+        //     $reward->title = Tools::getValue('title'); $this->clearCache();
+        //                 'jpg',
+        //                 'gif',
+        //                 'jpeg',
+        //                 'png'
+        //             )
+        //         ) &&
+        //         in_array($type, array('jpg', 'gif', 'jpeg', 'png'))
+        //     ) {
+        //         $temp_name = tempnam(_PS_TMP_IMG_DIR_, 'PS');
+        //         $salt = sha1(microtime());
+        //         if ($error = ImageManager::validateUpload($_FILES['image'])) {
+        //             $errors[] = $error;
+        //         } elseif (!$temp_name || !move_uploaded_file($_FILES['image']['tmp_name'], $temp_name)) {
+        //             return false;
+        //         } elseif (!ImageManager::resize($temp_name, __DIR__ . '/images/' . $salt . '_' . $_FILES['image']['name'], null, null, $type)) {
+        //             $errors[] = $this->displayError($this->getTranslator()->trans('An error occurred during the image upload process.', array(), 'Admin.Notifications.Error'));
+        //         }
+        //         $reward->image = $salt . '_' . $_FILES['image']['name'];
+        //     } elseif (Tools::getValue('image_old') != '') {
+        //         $reward->image = Tools::getValue('image_old');
+        //     }
+
+        //     if (!$errors) {
+        //         /* Adds */
+        //         if (!Tools::getValue('id_reward')) {
+        //             if (!$reward->add()) {
+        //                 $errors[] = $this->displayError($this->getTranslator()->trans('The slide could not be added.', array(), 'Modules.Imageslider.Admin'));
+        //             }
+        //         } elseif (!$reward->update()) {
+        //             $errors[] = $this->displayError($this->getTranslator()->trans('The slide could not be updated.', array(), 'Modules.Imageslider.Admin'));
+        //         }
+        //         $this->clearCache();
+        //     }
+
+        //     $this->clearCache();
+        //     $this->_html .= $this->renderForm();
+        //     $this->_html .= $this->renderList();
+        // } else if ((Tools::isSubmit('changeStatus') && Tools::isSubmit('id_reward'))) {
+        //     $slide = new RewardsModel((int)Tools::getValue('id_reward'));
+        //     $slide->active == 0 ? $slide->active = 1 : $slide->active = 0;
+        //     $res = $slide->update();
+        //     $this->clearCache();
+        //     $this->_html .= ($res ? $this->displayConfirmation($this->getTranslator()->trans('Configuration updated', array(), 'Admin.Notifications.Success')) : $this->displayError($this->getTranslator()->trans('The configuration could not be updated.', array(), 'Modules.Imageslider.Admin')));
+        //     $this->_html .= $this->renderAddForm();
+        // } elseif (Tools::isSubmit('delete_id_reward')) {
+        //     $slide = new RewardsModel((int)Tools::getValue('delete_id_reward'));
+        //     $res = $slide->delete();
+        //     $this->clearCache();
+        //     if (!$res) {
+        //         $this->_html .= $this->displayError('Could not delete.');
+        //     } else {
+        //         Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules', true) . '&conf=1&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name);
+        //     }
+        // }
+        else {
             $this->_html .= $this->renderForm();
             $this->_html .= $this->renderList();
         }
@@ -212,6 +300,31 @@ class Rewards extends Module
             )
         );
         return $this->display(__FILE__, 'list.tpl');
+    }
+
+    public function renderGallery()
+    {
+        $rewards = $this->getRewardsForDisplay();
+
+        $this->context->smarty->assign(
+            array(
+                'link' => $this->context->link,
+                'rewards' => $rewards,
+                'image_baseurl' => $this->_path . 'images/',
+                'title' => Configuration::get('REWARDS_TITLE')
+            )
+        );
+
+        return $this->context->smarty->fetch($this->local_path . 'views/templates/front/gallery.tpl');
+    }
+
+    protected function updateUrl($link)
+    {
+        if (substr($link, 0, 7) !== "http://" && substr($link, 0, 8) !== "https://") {
+            $link = "http://" . $link;
+        }
+
+        return $link;
     }
 
     protected function renderAddForm()
@@ -260,9 +373,9 @@ class Rewards extends Module
             ),
         );
 
-        if (Tools::isSubmit('id_reward')) {
+        if (Tools::isSubmit('addReward') && Tools::isSubmit('id_reward')) {
             $reward = new RewardsModel((int)Tools::getValue('id_reward'));
-            // $fields_form['form']['input'][] = array('type' => 'hidden', 'name' => 'id_reward');
+            $fields_form['form']['input'][] = array('type' => 'hidden', 'name' => 'id_reward');
             $fields_form['form']['images'] = $reward->image;
 
             $has_picture = true;
@@ -310,6 +423,7 @@ class Rewards extends Module
 
         if (Tools::getValue('id_reward')) {
             $reward = new RewardsModel((int)Tools::getValue('id_reward'));
+            $fields['id_reward'] = (int)Tools::getValue('id_reward', $reward->id);
         } else {
             $reward = new RewardsModel();
         }
@@ -461,14 +575,22 @@ class Rewards extends Module
     /**
      * Add the CSS & JavaScript files you want to be added on the FO.
      */
-    public function hookHeader()
+    public function hookDisplayHeader()
     {
         $this->context->controller->addJS($this->_path . '/views/js/front.js');
         $this->context->controller->addCSS($this->_path . '/views/css/front.css');
     }
 
+    public function hookDisplayHomeBottom()
+    {
+        
+        $this->context->controller->addJS($this->_path . '/views/js/front.js');
+        $this->context->controller->addCSS($this->_path . '/views/css/front.css');
+        return $this->renderGallery();
+    }
+
     /**
-     * Get rewards
+     * Get rewards for BO
      */
 
     protected function getRewards()
@@ -476,6 +598,22 @@ class Rewards extends Module
         return  Db::getInstance()->executeS('
         SELECT r.`id_reward`, r.`position`, r.`active`, r.`image`, r.`title`
         FROM `' . _DB_PREFIX_ . 'rewards` r ORDER BY r.`id_reward` DESC');
+    }
+
+    /**
+     * Get rewards for FO
+     */
+
+    protected function getRewardsForDisplay()
+    {
+        $rewards  = Db::getInstance()->executeS('
+        SELECT r.`id_reward`, r.`position`, r.`active`, r.`image`, r.`title`
+        FROM `' . _DB_PREFIX_ . 'rewards` r WHERE active=1 ORDER BY r.`id_reward` DESC');
+        foreach ($rewards as &$reward) {
+            $reward['image_url'] = $this->context->link->getMediaLink(_MODULE_DIR_ . 'rewards/images/' . $reward['image']);
+        }
+
+        return $rewards;
     }
 
     /**

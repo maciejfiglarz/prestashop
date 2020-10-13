@@ -34,6 +34,7 @@
 @import "components/buttons";
 @import "components/searcher";
 @import "components/swiper";
+@import "components/gallery";
 
 .display-none {
   display: none;
@@ -222,6 +223,7 @@ body.page-index #wrapper .container {
 body.page-index #wrapper {
   padding-top: 10px;
 }
+body.page-index #wrapper .gallery,
 body.page-index #wrapper .featured-products,
 body.page-index #wrapper .banner,
 body.page-index #wrapper #custom-text {
@@ -231,6 +233,7 @@ body.page-index #wrapper #custom-text {
   padding-right: 15px;
 }
 @media (min-width: 992px) {
+  body.page-index #wrapper .gallery,
   body.page-index #wrapper .featured-products,
   body.page-index #wrapper .banner,
   body.page-index #wrapper #custom-text {
@@ -238,6 +241,7 @@ body.page-index #wrapper #custom-text {
   }
 }
 @media (min-width: 1200px) {
+  body.page-index #wrapper .gallery,
   body.page-index #wrapper .featured-products,
   body.page-index #wrapper .banner,
   body.page-index #wrapper #custom-text {
@@ -245,6 +249,7 @@ body.page-index #wrapper #custom-text {
   }
 }
 @media (max-width: 991px) {
+  body.page-index #wrapper .gallery,
   body.page-index #wrapper .featured-products,
   body.page-index #wrapper .banner,
   body.page-index #wrapper #custom-text {

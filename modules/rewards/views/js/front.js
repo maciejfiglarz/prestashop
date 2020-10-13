@@ -25,3 +25,41 @@
 * Don't forget to prefix your containers with your own identifier
 * to avoid any conflicts with others containers.
 */
+
+$(document).ready(function() {
+
+	/* This is basic - uses default settings */
+	
+	// $("a#single_image").fancybox();
+	
+	// /* Using custom settings */
+	
+	// $("a#inline").fancybox({
+	// 	'hideOnContentClick': true
+	// });
+
+	// /* Apply fancybox to multiple items */
+	
+	// $("a.group").fancybox({
+	// 	'transitionIn'	:	'elastic',
+	// 	'transitionOut'	:	'elastic',
+	// 	'speedIn'		:	600, 
+	// 	'speedOut'		:	200, 
+	// 	'overlayShow'	:	false
+    // });
+    
+    // console.log('image');
+    $(function() {
+        var selectedClass = "";
+        $(".filter").click(function(){
+        selectedClass = $(this).attr("data-rel");
+        $("#gallery").fadeTo(100, 0.1);
+        $("#gallery div").not("."+selectedClass).fadeOut().removeClass('animation');
+        setTimeout(function() {
+        $("."+selectedClass).fadeIn().addClass('animation');
+        $("#gallery").fadeTo(300, 1);
+        }, 300);
+        });
+        });
+    
+});

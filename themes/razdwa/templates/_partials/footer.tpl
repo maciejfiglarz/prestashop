@@ -35,6 +35,7 @@
             <div class="row">
                 {block name='hook_footer'}
                 <div class="col-md-3">
+                    {hook h="displayFooterContactInfo"}
                     {hook h='displayFooter'}
                     {* <h5 class="copyright"> Projektowanie strony www Milenium Studio</h5> *}
                 </div>

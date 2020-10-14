@@ -35,6 +35,8 @@
 @import "components/searcher";
 @import "components/swiper";
 @import "components/gallery";
+@import "components/footer-contact-info";
+
 
 .display-none {
   display: none;
@@ -559,6 +561,9 @@ body.page-index #wrapper .gallery {
     .header-nav {
       margin-bottom: 0.625rem;
       color: $gray-darker;
+      .info {
+        display: none !important;
+      }
       .top-logo {
         // padding-top: 11px;
         a {

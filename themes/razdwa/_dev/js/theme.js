@@ -55,6 +55,9 @@ import "./lib/owl-carousel/owl.carousel.min.js";
 import "./lib/owl-carousel/assets/owl.carousel.min.css";
 import "./lib/owl-carousel/assets/owl.theme.default.min.css";
 
+import "./lib/fancybox/jquery.fancybox.min.js";
+import "./lib/fancybox/jquery.fancybox.min.css";
+
 // "inherit" EventEmitter
 for (var i in EventEmitter.prototype) {
   prestashop[i] = EventEmitter.prototype[i];
@@ -76,37 +79,39 @@ $(document).ready(() => {
 
   new Searcher().init();
 
-  $(document).ready(function () {
-    $(".owl-carousel").owlCarousel({
-      loop: true,
-      margin: 10,
-      responsiveClass: true,
-      autoplay:true,
-      autoplayTimeout:3000,
-      autoplayHoverPause:true,
-      nav: true,
-      navText: [
-        "<span class='material-icons'>navigate_before</span>",
-        "<span class='material-icons'>navigate_next</span>",
-      ],
-      responsive: {
-        0: {
-          items: 1,
-          nav: true,
-          loop:true
-        },
-        600: {
-          items: 2,
-          nav: true,
-          loop:true
-        },
-        1000: {
-          items: 4,
-          nav: true,
-          loop: false,
-          loop:true
-        },
+  $(".owl-carousel").owlCarousel({
+    loop: true,
+    margin: 10,
+    responsiveClass: true,
+    autoplay: true,
+    autoplayTimeout: 3000,
+    autoplayHoverPause: true,
+    nav: true,
+    navText: [
+      "<span class='material-icons'>navigate_before</span>",
+      "<span class='material-icons'>navigate_next</span>",
+    ],
+    responsive: {
+      0: {
+        items: 1,
+        nav: true,
+        loop: true,
       },
-    });
+      600: {
+        items: 2,
+        nav: true,
+        loop: true,
+      },
+      1000: {
+        items: 4,
+        nav: true,
+        loop: false,
+        loop: true,
+      },
+    },
   });
+  $('[data-fancybox="gallery"]').fancybox({
+    // Options will go here
+  });
+
 });

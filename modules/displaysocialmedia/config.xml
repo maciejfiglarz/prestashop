@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>displaysocialmedia</name>
+	<displayName><![CDATA[Wyświetl ikony social media]]></displayName>
+	<version><![CDATA[1.0.0]]></version>
+	<description><![CDATA[Moduł umożliwiający edycję linków do social mediów]]></description>
+	<author><![CDATA[Maciej Figlarz]]></author>
+	<tab><![CDATA[front_office_features]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>

@@ -32,6 +32,9 @@
         {block name='hook_home'}
         {$HOOK_HOME nofilter}
         {/block}
+        {hook h='displayHomeSlider1'}
+        {hook h='displayHomeSlider2'}
+        {hook h='displayHomeSlider3'}
         {hook h='displayHomeBottom'}
         {/block}
     </section>

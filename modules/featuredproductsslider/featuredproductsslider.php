@@ -76,6 +76,8 @@ class Featuredproductsslider extends Module
     {
         Configuration::updateValue('FEATUREDPRODUCTSSLIDER_LIVE_MODE', false);
 
+        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TITLE', 'Najnowsze');
+
         // FEATURE, CATEGORY
         Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR', 'FEATURE');
 
@@ -88,8 +90,8 @@ class Featuredproductsslider extends Module
         return parent::install() &&
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader') &&
-            $this->registerHook('displayHome') && 
-            $this->registerHook('displayHomeSlider1') && 
+            $this->registerHook('displayHome') &&
+            $this->registerHook('displayHomeSlider1') &&
             $this->registerHook('displayHomeSlider2') &&
             $this->registerHook('displayHomeSlider3') &&
             $this->registerHook('displayHomeSlider4');
@@ -195,6 +197,13 @@ class Featuredproductsslider extends Module
                     ),
                     array(
                         'type' => 'text',
+                        'label' => 'Wpisz tytuł sekcji',
+                        'name' => 'FEATUREDPRODUCTSSLIDER_TITLE',
+                        'class' => 'fixed-width-lg',
+                        'desc' => 'Ta wartość pojawi się nad sliderem',
+                    ),
+                    array(
+                        'type' => 'text',
                         'label' => $this->trans('Number of products to be displayed', array(), 'Modules.Featuredproducts.Admin'),
                         'name' => 'FEATUREDPRODUCTSSLIDER_NBR',
                         'class' => 'fixed-width-xs',
@@ -265,6 +274,7 @@ class Featuredproductsslider extends Module
             'FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR'),
             'FEATUREDPRODUCTSSLIDER_TYPE_FEATURE' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE'),
             'FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'),
+            'FEATUREDPRODUCTSSLIDER_TITLE' => Configuration::get('FEATUREDPRODUCTSSLIDER_TITLE')
         );
     }
 
@@ -294,13 +304,13 @@ class Featuredproductsslider extends Module
     /**
      * Add the CSS & JavaScript files you want to be added on the FO.
      */
-    public function hookHeader()
+    public function hookDisplayHeader()
     {
         $this->context->controller->addJS($this->_path . '/views/js/front.js');
         $this->context->controller->addCSS($this->_path . '/views/css/front.css');
     }
 
-    public function hookDisplayHomeBottom()
+    protected function displaySlide()
     {
         $variables = $this->prepareProducts();
         // if (!$this->isCached($this->templateFile, $this->getCacheId('ps_featuredproducts'))) {
@@ -313,6 +323,21 @@ class Featuredproductsslider extends Module
 
         return $this->fetch($this->templateFile, $this->getCacheId('ps_featuredproducts'));
     }
+    public function hookDisplayHomeBottom()
+    {
+        return $this->displaySlide();
+    }
+
+    public function hookDisplayHomeSlider1()
+    {
+        return $this->displaySlide();
+    }
+
+    public function hookDisplayHomeSlider3()
+    {
+        return $this->displaySlide();
+    }
+
 
     protected function prepareProducts()
     {
@@ -320,6 +345,7 @@ class Featuredproductsslider extends Module
         if (!empty($products)) {
             return array(
                 'products' => $products,
+                'title' => Configuration::get('FEATUREDPRODUCTSSLIDER_TITLE'),
                 'allProductsLink' => Context::getContext()->link->getCategoryLink($this->getConfigFieldsValues()['HOME_FEATURED_CAT']),
             );
         }

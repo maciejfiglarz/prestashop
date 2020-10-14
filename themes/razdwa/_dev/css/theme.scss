@@ -223,7 +223,8 @@ body.page-index #wrapper .container {
 body.page-index #wrapper {
   padding-top: 10px;
 }
-body.page-index #wrapper .gallery,
+// body.page-index #wrapper .gallery,
+body.page-index #wrapper .feature-slider,
 body.page-index #wrapper .featured-products,
 body.page-index #wrapper .banner,
 body.page-index #wrapper #custom-text {
@@ -232,30 +233,37 @@ body.page-index #wrapper #custom-text {
   padding-left: 15px;
   padding-right: 15px;
 }
-@media (min-width: 992px) {
-  body.page-index #wrapper .gallery,
-  body.page-index #wrapper .featured-products,
-  body.page-index #wrapper .banner,
-  body.page-index #wrapper #custom-text {
-    max-width: 940px;
-  }
+body.page-index #wrapper .gallery {
+  margin-left: auto;
+  margin-right: auto;
 }
+
+// @media (min-width: 992px) {
+//   body.page-index #wrapper .gallery,
+//   body.page-index #wrapper .featured-products,
+//   body.page-index #wrapper .banner,
+//   body.page-index #wrapper #custom-text {
+//     max-width: 940px;
+//   }
+// }
 @media (min-width: 1200px) {
+  body.page-index #wrapper .feature-slider,
   body.page-index #wrapper .gallery,
   body.page-index #wrapper .featured-products,
   body.page-index #wrapper .banner,
   body.page-index #wrapper #custom-text {
     max-width: 1140px;
+    // outline:1px solid red;
   }
 }
-@media (max-width: 991px) {
-  body.page-index #wrapper .gallery,
-  body.page-index #wrapper .featured-products,
-  body.page-index #wrapper .banner,
-  body.page-index #wrapper #custom-text {
-    max-width: 100%;
-  }
-}
+// @media (max-width: 991px) {
+//   body.page-index #wrapper .gallery,
+//   body.page-index #wrapper .featured-products,
+//   body.page-index #wrapper .banner,
+//   body.page-index #wrapper #custom-text {
+//     max-width: 100%;
+//   }
+// }
 
 // #header {
 //   background: white;

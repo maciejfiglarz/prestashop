@@ -69,6 +69,7 @@ class Featuredproductsslider extends Module
         $this->allCategories = Category::getAllCategoriesName(null, $this->context->language->id);
 
         $this->tabs = ['TAB1', 'TAB2', 'TAB3'];
+        
     }
 
     /**
@@ -81,7 +82,7 @@ class Featuredproductsslider extends Module
 
         foreach ($this->tabs as $tab) {
             Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TITLE_' . $tab, 'Najnowsze');
-            
+
             // FEATURE, CATEGORY
             Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR_' . $tab, 'FEATURE');
 
@@ -90,17 +91,6 @@ class Featuredproductsslider extends Module
             Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab, 2);
             Configuration::updateValue('FEATUREDPRODUCTSSLIDER_NBR_' . $tab, 8);
         }
-
-        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TITLE', 'Najnowsze');
-
-        // // FEATURE, CATEGORY
-        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR', 'FEATURE');
-
-        // //NEWEST, BESTSELLERS, SALE. RANDOM
-        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE', 'NEWEST');
-        // // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', Context::getContext()->shop->getCategory());
-        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', 2);
-        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_NBR', 8);
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -172,7 +162,6 @@ class Featuredproductsslider extends Module
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
         );
-        dump('fields',$this->getConfigFormValues($tab));
         return $helper->generateForm(array($this->getConfigForm($tab)));
     }
 
@@ -187,12 +176,8 @@ class Featuredproductsslider extends Module
             $preparedCategory[] = ['key' => $index, 'name' => $category['name']];
         }
 
-        // array_push($preparedCategory, ['key' => 'no-category', 'name' => 'Bez kategorii']);
+        array_push($preparedCategory, ['key' => 'no-category', 'name' => 'Bez kategorii']);
 
-        // dump(Configuration::get('FEATUREDPRODUCTSSLIDER_NBR'));
-        // dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR'));
-        // dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE'));
-        // dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'));
 
         return array(
             'form' => array(
@@ -200,34 +185,16 @@ class Featuredproductsslider extends Module
                     'title' => 'Ustawienia',
                     'icon' => 'icon-cogs',
                 ),
-
+                'tabs' => array(
+					
+					'Slider 1' => 'Slider 1',
+					'Slider 2' => $this->l("Configuración pedidos"),
+					'Slider 3' => $this->l("Configuración Transportes"),
+					
+					
+				
+				),
                 'input' => array(
-                    // array(
-                    //     'type' => 'switch',
-                    //     'label' => 'Widoczny',
-                    //     'name' => 'FEATUREDPRODUCTSSLIDER_LIVE_MODE',
-                    //     'is_bool' => true,
-                    //     'desc' => $this->l('Aktywuj lub dezaktywuj wtyczkę'),
-                    //     'values' => array(
-                    //         array(
-                    //             'id' => 'active_on',
-                    //             'value' => true,
-                    //             'label' => $this->l('Enabled')
-                    //         ),
-                    //         array(
-                    //             'id' => 'active_off',
-                    //             'value' => false,
-                    //             'label' => $this->l('Disabled')
-                    //         )
-                    //     ),
-                    // ),
-                    // array(
-                    //     'type' => 'hidden',
-                    //     'label' => 'Wpisz tytuł sekcji',
-                    //     'name' => 'FEATUREDPRODUCTSSLIDER_TAB',
-                    //     'class' => 'fixed-width-lg',
-                    //     'desc' => 'Ta wartość pojawi się nad sliderem',
-                    // ),
                     array(
                         'type' => 'text',
                         'label' => 'Wpisz tytuł sekcji',
@@ -317,7 +284,7 @@ class Featuredproductsslider extends Module
     protected function postProcess($tab)
     {
         $form_values = $this->getConfigFormValues($tab);
-        dump('$form_values', $form_values);
+
         foreach (array_keys($form_values) as $key) {
             Configuration::updateValue($key, Tools::getValue($key));
         }
@@ -343,9 +310,9 @@ class Featuredproductsslider extends Module
         $this->context->controller->addCSS($this->_path . '/views/css/front.css');
     }
 
-    protected function displaySlide()
+    protected function displaySlide($tab)
     {
-        $variables = $this->prepareProducts();
+        $variables = $this->prepareProducts($tab);
         // if (!$this->isCached($this->templateFile, $this->getCacheId('ps_featuredproducts'))) {
         // var_dump('variables',$variables);
         // if (empty($variables)) {
@@ -356,40 +323,40 @@ class Featuredproductsslider extends Module
 
         return $this->fetch($this->templateFile, $this->getCacheId('ps_featuredproducts'));
     }
-    public function hookDisplayHomeBottom()
-    {
-        return $this->displaySlide();
-    }
 
     public function hookDisplayHomeSlider1()
     {
-        return $this->displaySlide();
+        return $this->displaySlide('TAB1');
     }
-
+    public function hookDisplayHomeSlider2()
+    {
+        return $this->displaySlide('TAB2');
+    }
     public function hookDisplayHomeSlider3()
     {
-        return $this->displaySlide();
+        return $this->displaySlide('TAB3');
     }
 
 
-    protected function prepareProducts()
+
+    protected function prepareProducts($tab)
     {
-        $products = $this->getProducts();
+        $products = $this->getProducts($tab);
         if (!empty($products)) {
             return array(
                 'products' => $products,
-                'title' => Configuration::get('FEATUREDPRODUCTSSLIDER_TITLE'),
+                'title' => Configuration::get('FEATUREDPRODUCTSSLIDER_TITLE_' . $tab),
                 'allProductsLink' => Context::getContext()->link->getCategoryLink($this->getConfigFieldsValues()['HOME_FEATURED_CAT']),
             );
         }
-
+        die();
         return false;
     }
 
-    protected function getProducts()
+    protected function getProducts($tab)
     {
 
-        $category = new Category((int) Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'));
+        $category = new Category((int) Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_'.$tab));
 
         $searchProvider = new CategoryProductSearchProvider(
             $this->context->getTranslator(),
@@ -409,15 +376,15 @@ class Featuredproductsslider extends Module
             ->setResultsPerPage($nProducts)
             ->setPage(1);
 
-        if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'RANDOM') {
+        if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_'.$tab) == 'RANDOM') {
             // dump('random');
             $query->setSortOrder(SortOrder::random());
-        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'SALE') {
+        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_'.$tab) == 'SALE') {
             // dump('sale');
             $query
                 ->setQueryType('prices-drop')
                 ->setSortOrder(new SortOrder('product', 'name', 'asc'));
-        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE') == 'BESTSELLERS') {
+        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_'.$tab) == 'BESTSELLERS') {
             // dump('BESTSELLERS');
             $query
                 ->setQueryType('best-sales')

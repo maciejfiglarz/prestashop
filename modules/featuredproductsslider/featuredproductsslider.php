@@ -35,6 +35,7 @@ use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchContext;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use PrestaShop\PrestaShop\Core\Product\Search\SortOrder;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchResult;
+use PrestaShop\PrestaShop\Adapter\Search\SearchProductSearchProvider;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -334,8 +335,6 @@ class Featuredproductsslider extends Module
         return $this->displaySlide('TAB3');
     }
 
-
-
     protected function prepareProducts($tab)
     {
         $products = $this->getProducts($tab);
@@ -352,9 +351,9 @@ class Featuredproductsslider extends Module
 
     protected function getProducts($tab)
     {
-        if(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab == 'all')){
-
+        if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab == 'all')) {
         }
+        
         $category = new Category((int) Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab));
 
         $searchProvider = new CategoryProductSearchProvider(
@@ -391,10 +390,15 @@ class Featuredproductsslider extends Module
                 ->setSortOrder(new SortOrder('product', 'date_add', 'desc'));
         }
 
+        $provider = new SearchProductSearchProvider($this->context->getTranslator());
+        $result1 = $provider->runQuery($context, $query);
+
         $result = $searchProvider->runQuery(
             $context,
             $query
         );
+
+        dump($result1, $result);
 
         $assembler = new ProductAssembler($this->context);
 

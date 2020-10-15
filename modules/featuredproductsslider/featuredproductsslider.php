@@ -353,13 +353,14 @@ class Featuredproductsslider extends Module
     {
         if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab == 'all')) {
         }
-        
+
         $category = new Category((int) Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab));
 
         $searchProvider = new CategoryProductSearchProvider(
             $this->context->getTranslator(),
             $category
         );
+
 
         $context = new ProductSearchContext($this->context);
 

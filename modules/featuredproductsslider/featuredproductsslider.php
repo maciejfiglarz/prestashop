@@ -69,7 +69,6 @@ class Featuredproductsslider extends Module
         $this->allCategories = Category::getAllCategoriesName(null, $this->context->language->id);
 
         $this->tabs = ['TAB1', 'TAB2', 'TAB3'];
-        
     }
 
     /**
@@ -176,7 +175,7 @@ class Featuredproductsslider extends Module
             $preparedCategory[] = ['key' => $index, 'name' => $category['name']];
         }
 
-        array_push($preparedCategory, ['key' => 'no-category', 'name' => 'Bez kategorii']);
+        array_push($preparedCategory, ['key' => 'all', 'name' => 'Wszystkie']);
 
 
         return array(
@@ -185,15 +184,13 @@ class Featuredproductsslider extends Module
                     'title' => 'Ustawienia',
                     'icon' => 'icon-cogs',
                 ),
-                'tabs' => array(
-					
-					'Slider 1' => 'Slider 1',
-					'Slider 2' => $this->l("Configuración pedidos"),
-					'Slider 3' => $this->l("Configuración Transportes"),
-					
-					
-				
-				),
+                // 'tabs' => array(
+
+                //     'Slider 1' => 'Slider 1',
+                //     'Slider 2' => $this->l("Configuración pedidos"),
+                //     'Slider 3' => $this->l("Configuración Transportes"),
+
+                // ),
                 'input' => array(
                     array(
                         'type' => 'text',
@@ -355,8 +352,10 @@ class Featuredproductsslider extends Module
 
     protected function getProducts($tab)
     {
+        if(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab == 'all')){
 
-        $category = new Category((int) Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_'.$tab));
+        }
+        $category = new Category((int) Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab));
 
         $searchProvider = new CategoryProductSearchProvider(
             $this->context->getTranslator(),
@@ -376,21 +375,17 @@ class Featuredproductsslider extends Module
             ->setResultsPerPage($nProducts)
             ->setPage(1);
 
-        if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_'.$tab) == 'RANDOM') {
-            // dump('random');
+        if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_' . $tab) == 'RANDOM') {
             $query->setSortOrder(SortOrder::random());
-        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_'.$tab) == 'SALE') {
-            // dump('sale');
+        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_' . $tab) == 'SALE') {
             $query
                 ->setQueryType('prices-drop')
                 ->setSortOrder(new SortOrder('product', 'name', 'asc'));
-        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_'.$tab) == 'BESTSELLERS') {
-            // dump('BESTSELLERS');
+        } else if (Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_' . $tab) == 'BESTSELLERS') {
             $query
                 ->setQueryType('best-sales')
                 ->setSortOrder(new SortOrder('product', 'name', 'asc'));
         } else {
-            // dump('newest');
             $query
                 ->setQueryType('new-products')
                 ->setSortOrder(new SortOrder('product', 'date_add', 'desc'));

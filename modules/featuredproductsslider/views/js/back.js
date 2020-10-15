@@ -27,6 +27,9 @@
  */
 
 window.addEventListener("DOMContentLoaded", (event) => {
+    
+    
+
 //   const displayFields = (currentValue) => {
 //     if (currentValue == "FEATURE") {
 //       selectFeature.parentElement.parentElement.style.display = "block";

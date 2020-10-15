@@ -148,21 +148,6 @@ class Footercontactinfo extends Module
                 ),
                 'input' => array(
                     array(
-                        'desc' => $this->l('Use this module in live mode'),
-                        'values' => array(
-                            array(
-                                'id' => 'active_on',
-                                'value' => true,
-                                'label' => $this->l('Enabled')
-                            ),
-                            array(
-                                'id' => 'active_off',
-                                'value' => false,
-                                'label' => $this->l('Disabled')
-                            )
-                        ),
-                    ),
-                    array(
                         'col' => 4,
                         'type' => 'textarea',
                         'prefix' => '<i class="icon icon-info"></i>',
@@ -237,7 +222,7 @@ class Footercontactinfo extends Module
     }
 
     /**
-     * Add the CSS & JavaScript files you want to be added on the FO.
+     * Add the CSS & JavaScript files you want to be added on the FO.f
      */
     public function hookHeader()
     {
@@ -249,9 +234,9 @@ class Footercontactinfo extends Module
     {
         $this->context->smarty->assign(array(
             'bill' => Configuration::get('FOOTERCONTACTINFO_BILL'),
-            'support' => Configuration::get('DISPLAYSOCIALMEDIA_SUPPORT'),
-            'info1' => Configuration::get('DISPLAYSOCIALMEDIA_INFO1'),
-            'info2' => Configuration::get('DISPLAYSOCIALMEDIA_INFO2')
+            'support' => Configuration::get('FOOTERCONTACTINFO_SUPPORT'),
+            'info1' => Configuration::get('FOOTERCONTACTINFO_INFO1'),
+            'info2' => Configuration::get('FOOTERCONTACTINFO_INFO2')
         ));
 
         return $this->display(__FILE__, 'views/templates/front/front.tpl');

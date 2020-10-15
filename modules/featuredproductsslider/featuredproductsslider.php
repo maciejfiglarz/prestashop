@@ -67,6 +67,8 @@ class Featuredproductsslider extends Module
         $this->templateFile = 'module:featuredproductsslider/views/templates/front/list.tpl';
 
         $this->allCategories = Category::getAllCategoriesName(null, $this->context->language->id);
+
+        $this->tabs = ['TAB1', 'TAB2', 'TAB3'];
     }
 
     /**
@@ -76,16 +78,29 @@ class Featuredproductsslider extends Module
     {
         Configuration::updateValue('FEATUREDPRODUCTSSLIDER_LIVE_MODE', false);
 
-        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TITLE', 'Najnowsze');
 
-        // FEATURE, CATEGORY
-        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR', 'FEATURE');
+        foreach ($this->tabs as $tab) {
+            Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TITLE_' . $tab, 'Najnowsze');
+            
+            // FEATURE, CATEGORY
+            Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR_' . $tab, 'FEATURE');
 
-        //NEWEST, BESTSELLERS, SALE. RANDOM
-        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE', 'NEWEST');
-        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', Context::getContext()->shop->getCategory());
-        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', 2);
-        Configuration::updateValue('FEATUREDPRODUCTSSLIDER_NBR', 8);
+            //NEWEST, BESTSELLERS, SALE. RANDOM
+            Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_' . $tab, 'NEWEST');
+            Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab, 2);
+            Configuration::updateValue('FEATUREDPRODUCTSSLIDER_NBR_' . $tab, 8);
+        }
+
+        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TITLE', 'Najnowsze');
+
+        // // FEATURE, CATEGORY
+        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR', 'FEATURE');
+
+        // //NEWEST, BESTSELLERS, SALE. RANDOM
+        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE', 'NEWEST');
+        // // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', Context::getContext()->shop->getCategory());
+        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY', 2);
+        // Configuration::updateValue('FEATUREDPRODUCTSSLIDER_NBR', 8);
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -112,21 +127,31 @@ class Featuredproductsslider extends Module
         /**
          * If values have been submitted in the form, process.
          */
-        if (((bool)Tools::isSubmit('submitFeaturedproductssliderModule')) == true) {
-            $this->postProcess();
+        if (((bool)Tools::isSubmit('submitFeaturedProductsSliderModuleTAB1')) == true) {
+            $this->postProcess('TAB1');
+        }
+        if (((bool)Tools::isSubmit('submitFeaturedProductsSliderModuleTAB2')) == true) {
+            $this->postProcess('TAB2');
+        }
+        if (((bool)Tools::isSubmit('submitFeaturedProductsSliderModuleTAB3')) == true) {
+            $this->postProcess('TAB3');
         }
 
         $this->context->smarty->assign('module_dir', $this->_path);
 
         $output = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
+        $renderedForms = '';
+        foreach ($this->tabs as $tab) {
+            $renderedForms .= $this->renderForm($tab);
+        }
 
-        return $output . $this->renderForm();
+        return $output . $renderedForms;
     }
 
     /**
      * Create the form that will be displayed in the configuration of your module.
      */
-    protected function renderForm()
+    protected function renderForm($tab)
     {
         $helper = new HelperForm();
 
@@ -137,24 +162,24 @@ class Featuredproductsslider extends Module
         $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
 
         $helper->identifier = $this->identifier;
-        $helper->submit_action = 'submitFeaturedproductssliderModule';
+        $helper->submit_action = 'submitFeaturedProductsSliderModule' . $tab;
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
             . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
 
         $helper->tpl_vars = array(
-            'fields_value' => $this->getConfigFormValues(), /* Add values for your inputs */
+            'fields_value' => $this->getConfigFormValues($tab), /* Add values for your inputs */
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
         );
-
-        return $helper->generateForm(array($this->getConfigForm()));
+        dump('fields',$this->getConfigFormValues($tab));
+        return $helper->generateForm(array($this->getConfigForm($tab)));
     }
 
     /**
      * Create the structure of your form.
      */
-    protected function getConfigForm()
+    protected function getConfigForm($tab)
     {
 
         $preparedCategory = [];
@@ -164,10 +189,10 @@ class Featuredproductsslider extends Module
 
         // array_push($preparedCategory, ['key' => 'no-category', 'name' => 'Bez kategorii']);
 
-        dump(Configuration::get('FEATUREDPRODUCTSSLIDER_NBR'));
-        dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR'));
-        dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE'));
-        dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'));
+        // dump(Configuration::get('FEATUREDPRODUCTSSLIDER_NBR'));
+        // dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR'));
+        // dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE'));
+        // dump(Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'));
 
         return array(
             'form' => array(
@@ -175,44 +200,52 @@ class Featuredproductsslider extends Module
                     'title' => 'Ustawienia',
                     'icon' => 'icon-cogs',
                 ),
+
                 'input' => array(
-                    array(
-                        'type' => 'switch',
-                        'label' => 'Widoczny',
-                        'name' => 'FEATUREDPRODUCTSSLIDER_LIVE_MODE',
-                        'is_bool' => true,
-                        'desc' => $this->l('Aktywuj lub dezaktywuj wtyczkę'),
-                        'values' => array(
-                            array(
-                                'id' => 'active_on',
-                                'value' => true,
-                                'label' => $this->l('Enabled')
-                            ),
-                            array(
-                                'id' => 'active_off',
-                                'value' => false,
-                                'label' => $this->l('Disabled')
-                            )
-                        ),
-                    ),
+                    // array(
+                    //     'type' => 'switch',
+                    //     'label' => 'Widoczny',
+                    //     'name' => 'FEATUREDPRODUCTSSLIDER_LIVE_MODE',
+                    //     'is_bool' => true,
+                    //     'desc' => $this->l('Aktywuj lub dezaktywuj wtyczkę'),
+                    //     'values' => array(
+                    //         array(
+                    //             'id' => 'active_on',
+                    //             'value' => true,
+                    //             'label' => $this->l('Enabled')
+                    //         ),
+                    //         array(
+                    //             'id' => 'active_off',
+                    //             'value' => false,
+                    //             'label' => $this->l('Disabled')
+                    //         )
+                    //     ),
+                    // ),
+                    // array(
+                    //     'type' => 'hidden',
+                    //     'label' => 'Wpisz tytuł sekcji',
+                    //     'name' => 'FEATUREDPRODUCTSSLIDER_TAB',
+                    //     'class' => 'fixed-width-lg',
+                    //     'desc' => 'Ta wartość pojawi się nad sliderem',
+                    // ),
                     array(
                         'type' => 'text',
                         'label' => 'Wpisz tytuł sekcji',
-                        'name' => 'FEATUREDPRODUCTSSLIDER_TITLE',
+                        'name' => 'FEATUREDPRODUCTSSLIDER_TITLE_' . $tab,
                         'class' => 'fixed-width-lg',
                         'desc' => 'Ta wartość pojawi się nad sliderem',
                     ),
                     array(
                         'type' => 'text',
                         'label' => $this->trans('Number of products to be displayed', array(), 'Modules.Featuredproducts.Admin'),
-                        'name' => 'FEATUREDPRODUCTSSLIDER_NBR',
+                        'name' => 'FEATUREDPRODUCTSSLIDER_NBR_' . $tab,
                         'class' => 'fixed-width-xs',
                         'desc' => $this->trans('Set the number of products that you would like to display on homepage (default: 8).', array(), 'Modules.Featuredproducts.Admin'),
                     ),
                     array(
                         'type' => 'radio',
                         'label' => 'Pokaż według',
-                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR',
+                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR_' . $tab,
                         // 'desc' => $this->l('Use this module in live mode'),
                         'values' => array(
                             array(
@@ -230,7 +263,7 @@ class Featuredproductsslider extends Module
                     array(
                         'type' => 'select',
                         'label' => $this->l('Cechy'),
-                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_FEATURE',
+                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_' . $tab,
                         'multiple' => false,
                         'options' => array(
                             'query' => array(
@@ -247,7 +280,7 @@ class Featuredproductsslider extends Module
                     array(
                         'type' => 'select',
                         'label' => $this->l('Kategorie'),
-                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY',
+                        'name' => 'FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab,
                         'multiple' => false,
                         'options' => array(
                             'query' => $preparedCategory,
@@ -262,29 +295,29 @@ class Featuredproductsslider extends Module
             ),
         );
     }
-    // $this->$allCategories 
+
     /**
      * Set values for the inputs.
      */
-    protected function getConfigFormValues()
+    protected function getConfigFormValues($tab)
     {
         return array(
             'FEATUREDPRODUCTSSLIDER_LIVE_MODE' => Configuration::get('FEATUREDPRODUCTSSLIDER_LIVE_MODE', true),
-            'FEATUREDPRODUCTSSLIDER_NBR' => Configuration::get('FEATUREDPRODUCTSSLIDER_NBR'),
-            'FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR'),
-            'FEATUREDPRODUCTSSLIDER_TYPE_FEATURE' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE'),
-            'FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY' => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY'),
-            'FEATUREDPRODUCTSSLIDER_TITLE' => Configuration::get('FEATUREDPRODUCTSSLIDER_TITLE')
+            'FEATUREDPRODUCTSSLIDER_NBR_' . $tab => Configuration::get('FEATUREDPRODUCTSSLIDER_NBR_' . $tab),
+            'FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR_' . $tab => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_SELECTOR_' . $tab),
+            'FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_' . $tab => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_FEATURE_' . $tab),
+            'FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab => Configuration::get('FEATUREDPRODUCTSSLIDER_TYPE_CATEGORY_' . $tab),
+            'FEATUREDPRODUCTSSLIDER_TITLE_' . $tab => Configuration::get('FEATUREDPRODUCTSSLIDER_TITLE_' . $tab)
         );
     }
 
     /**
      * Save form data.
      */
-    protected function postProcess()
+    protected function postProcess($tab)
     {
-        $form_values = $this->getConfigFormValues();
-
+        $form_values = $this->getConfigFormValues($tab);
+        dump('$form_values', $form_values);
         foreach (array_keys($form_values) as $key) {
             Configuration::updateValue($key, Tools::getValue($key));
         }

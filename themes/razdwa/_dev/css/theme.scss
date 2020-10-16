@@ -37,7 +37,6 @@
 @import "components/gallery";
 @import "components/footer-contact-info";
 
-
 .display-none {
   display: none;
 }
@@ -47,7 +46,12 @@
 .opacity-visible {
   opacity: 1;
 }
-
+.full-width {
+  width:100%;
+  max-width: 100%;
+  display:flex;
+  justify-content: center;
+}
 .disabled-content {
   cursor: not-allowed;
 }
@@ -116,7 +120,7 @@
   .header-nav {
     position: relative;
     z-index: 2;
-    margin-top: 15px;
+    margin-top: 18px;
     .user-info {
       display: flex;
     }
@@ -248,14 +252,20 @@ body.page-index #wrapper .gallery {
 //     max-width: 940px;
 //   }
 // }
+// @media (min-width: 1200px) {
+//   body.page-index #wrapper .feature-slider,
+//   body.page-index #wrapper .featured-products,
+//   body.page-index #wrapper .banner,
+//   body.page-index #wrapper #custom-text {
+//     max-width: 1140px;
+//     // outline:1px solid red;
+//   }
+// }
 @media (min-width: 1200px) {
-  body.page-index #wrapper .feature-slider,
-  body.page-index #wrapper .gallery,
-  body.page-index #wrapper .featured-products,
-  body.page-index #wrapper .banner,
-  body.page-index #wrapper #custom-text {
-    max-width: 1140px;
-    // outline:1px solid red;
+  body.page-index #wrapper .feature-slider ,
+    body.page-index #wrapper .gallery,
+    .footer-container {
+    max-width: 1440px;
   }
 }
 // @media (max-width: 991px) {
@@ -600,7 +610,7 @@ body.page-index #wrapper .gallery {
       background: $gray-light;
       padding-bottom: 0;
       a[data-depth="0"] {
-        color:white;
+        color: white;
       }
       .search-widget {
         width: 100%;

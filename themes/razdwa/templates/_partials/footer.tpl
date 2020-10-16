@@ -29,11 +29,9 @@
             {/block}
         </div>
     </div>
-
-    <div class="footer-container">
-        <div class="container">
-            <div class="row">
-                {block name='hook_footer'}
+    <div class="container ">
+        <div class="row footer-container">
+            {block name='hook_footer'}
                 <div class="col-md-3">
                     {hook h="displayFooterContactInfo"}
                     {hook h='displayFooter'}
@@ -47,23 +45,22 @@
                         <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=400&amp;hl=en&amp;q=Konstantego%20Bradla%203+(Faro%20Tekstylia)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
                     </div>
                 </div>
-                {/block}
-            </div>
-            <div class="row">
-                {block name='hook_footer_after'}
-                {hook h='displayFooterAfter'}
-                {/block}
-            </div>
-            {* <div class="row">
-                <div class="col-md-12">
-                    <p class="text-sm-center">
-                        {block name='copyright_link'}
-                        <a class="_blank" href="https://www.prestashop.com" target="_blank" rel="nofollow">
-                            {l s='%copyright% %year% - Ecommerce software by %prestashop%' sprintf=['%prestashop%' => 'PrestaShop™', '%year%' => 'Y'|date, '%copyright%' => '©'] d='Shop.Theme.Global'}
-                        </a>
-                        {/block}
-                    </p>
-                </div>
-            </div> *}
+            {/block}
         </div>
     </div>
+    <div class="row">
+        {block name='hook_footer_after'}
+            {hook h='displayFooterAfter'}
+        {/block}
+    </div>
+    {* <div class="row">
+        <div class="col-md-12">
+            <p class="text-sm-center">
+                {block name='copyright_link'}
+                    <a class="_blank" href="https://www.prestashop.com" target="_blank" rel="nofollow">
+                        {l s='%copyright% %year% - Ecommerce software by %prestashop%' sprintf=['%prestashop%' => 'PrestaShop™', '%year%' => 'Y'|date, '%copyright%' => '©'] d='Shop.Theme.Global'}
+                    </a>
+                {/block}
+            </p>
+        </div>
+    </div> *}

@@ -361,7 +361,6 @@ class Featuredproductsslider extends Module
             $category
         );
 
-
         $context = new ProductSearchContext($this->context);
 
         $query = new ProductSearchQuery();
@@ -371,6 +370,7 @@ class Featuredproductsslider extends Module
         if ($nProducts < 0) {
             $nProducts = 12;
         }
+
         $query
             ->setResultsPerPage($nProducts)
             ->setPage(1);
@@ -399,7 +399,6 @@ class Featuredproductsslider extends Module
             $query
         );
 
-        dump($result1, $result);
 
         $assembler = new ProductAssembler($this->context);
 

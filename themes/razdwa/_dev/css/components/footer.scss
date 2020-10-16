@@ -188,8 +188,14 @@
 }
 
 .links {
+  margin-top: 20px;
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
   .collapse {
     display: inherit;
+    margin-left: 0;
     a {
       color: $brand-primary;
     }
@@ -204,6 +210,7 @@
   .footer-container {
     box-shadow: none;
     margin-top: 0;
+
     .wrapper {
       padding-left: 0 !important;
       padding-right: 0 !important;

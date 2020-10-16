@@ -76,7 +76,7 @@ class HookDispatcher
     public function __construct(Ps_Facetedsearch $module)
     {
         $this->module = $module;
-        dump('module',$module);
+
         foreach (self::CLASSES as $hookClass) {
             $hook = new $hookClass($this->module);
             $this->availableHooks = array_merge($this->availableHooks, $hook->getAvailableHooks());

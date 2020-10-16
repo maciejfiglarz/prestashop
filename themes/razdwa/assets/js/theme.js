@@ -1728,28 +1728,28 @@ $(document).ready(function () {
 
   $(".owl-carousel").owlCarousel({
     loop: true,
-    margin: 10,
+    margin: 29,
     responsiveClass: true,
     autoplay: true,
     autoplayTimeout: 3000,
     autoplayHoverPause: true,
     nav: true,
+    stagePadding: 18,
     navText: ["<span class='material-icons'>navigate_before</span>", "<span class='material-icons'>navigate_next</span>"],
     responsive: {
       0: {
         items: 1,
-        nav: true,
+        nav: false,
         loop: true
       },
       600: {
         items: 2,
-        nav: true,
+        nav: false,
         loop: true
       },
       1000: {
         items: 4,
-        nav: true,
-        loop: false,
+        nav: false,
         loop: true
       }
     }

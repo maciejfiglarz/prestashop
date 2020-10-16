@@ -7,9 +7,9 @@
             <figure class="col-md-4">
                 <a href="{$reward.image_url}" data-fancybox="gallery" class="gallery__item" style="background: url({$reward.image_url}); background-size:cover; display:block;" data-size="1600x1067">
                     {if $reward.title}
-                    <h3 class="gallery__item-title">
+                    {* <h3 class="gallery__item-title">
                         <div><span>{$reward.title}</span></div>
-                    </h3>
+                    </h3> *}
                     {/if}
                 </a>
             </figure>

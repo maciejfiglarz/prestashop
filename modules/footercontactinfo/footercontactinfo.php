@@ -61,19 +61,22 @@ class Footercontactinfo extends Module
     public function install()
     {
         Configuration::updateValue('FOOTERCONTACTINFO_LIVE_MODE', false);
-        Configuration::updateValue('FOOTERCONTACTINFO_INFO1', 'Kraków, 30-732
-        ul.Konstantego Brandla 3
-        ');
-        Configuration::updateValue('FOOTERCONTACTINFO_INFO2', 'info@faro.com.pl
-        12 255 50 00
-        ');
 
-        Configuration::updateValue('FOOTERCONTACTINFO_SUPPORT', '+48 255 50 26
-        handlowy@faro.com.pl
-        ');
-        Configuration::updateValue('FOOTERCONTACTINFO_BILL', '+48 12 255 50 31
-        faktury@faro.com.pl
-         ');
+        Configuration::updateValue('FOOTERCONTACTINFO_INFO1_CITY', 'Kraków, 30-732');
+        Configuration::updateValue(
+            'FOOTERCONTACTINFO_INFO1_STREET',
+            'ul.Konstantego Brandla 3'
+        );
+
+        Configuration::updateValue('FOOTERCONTACTINFO_INFO2_EMAIL', 'info@faro.com.pl');
+
+        Configuration::updateValue('FOOTERCONTACTINFO_INFO2_NUMBER', '+48 12 255 50 00');
+
+        Configuration::updateValue('FOOTERCONTACTINFO_SUPPORT_NUMBER', '+48 255 50 26');
+        Configuration::updateValue('FOOTERCONTACTINFO_SUPPORT_EMAIL', 'handlowy@faro.com.pl');
+
+        Configuration::updateValue('FOOTERCONTACTINFO_BILL_NUMBER', '+48 12 255 50 31');
+        Configuration::updateValue('FOOTERCONTACTINFO_BILL_EMAIL', 'faktury@faro.com.pl');
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -149,31 +152,62 @@ class Footercontactinfo extends Module
                 'input' => array(
                     array(
                         'col' => 4,
-                        'type' => 'textarea',
+                        'type' => 'text',
                         'prefix' => '<i class="icon icon-info"></i>',
-                        'name' => 'FOOTERCONTACTINFO_INFO1',
-                        'label' => 'Kontakt - pierwsze pole',
+                        'name' => 'FOOTERCONTACTINFO_INFO1_CITY',
+                        'label' => 'Adres - 1',
                     ),
                     array(
                         'col' => 4,
-                        'type' => 'textarea',
+                        'type' => 'text',
                         'prefix' => '<i class="icon icon-info"></i>',
-                        'name' => 'FOOTERCONTACTINFO_INFO2',
-                        'label' => 'Kontakt - drugie pole',
+                        'name' => 'FOOTERCONTACTINFO_INFO1_STREET',
+                        'label' => 'Adres - 2',
+                    ),
+
+                    array(
+                        'col' => 4,
+                        'type' => 'text',
+                        'prefix' => '<i class="icon icon-info"></i>',
+                        'name' => 'FOOTERCONTACTINFO_INFO2_PHONE',
+                        'label' => 'Dane kontaktowe -1',
                     ),
                     array(
                         'col' => 4,
-                        'type' => 'textarea',
+                        'type' => 'text',
                         'prefix' => '<i class="icon icon-info"></i>',
-                        'label' => 'Obsługa klienta',
-                        'name' => 'FOOTERCONTACTINFO_SUPPORT',
+                        'name' => 'FOOTERCONTACTINFO_INFO2_EMAIL',
+                        'label' => 'Dane kontaktowe -2',
+                    ),
+
+                    array(
+                        'col' => 4,
+                        'type' => 'text',
+                        'prefix' => '<i class="icon icon-info"></i>',
+                        'label' => 'Obsługa klienta - 1',
+                        'name' => 'FOOTERCONTACTINFO_SUPPORT_PHONE',
                     ),
                     array(
                         'col' => 4,
-                        'type' => 'textarea',
+                        'type' => 'text',
                         'prefix' => '<i class="icon icon-info"></i>',
-                        'label' => 'Dział faktur',
-                        'name' => 'FOOTERCONTACTINFO_BILL',
+                        'label' => 'Obsługa klienta - 1',
+                        'name' => 'FOOTERCONTACTINFO_SUPPORT_EMAIL',
+                    ),
+
+                    array(
+                        'col' => 4,
+                        'type' => 'text',
+                        'prefix' => '<i class="icon icon-info"></i>',
+                        'label' => 'Dział faktur - 1',
+                        'name' => 'FOOTERCONTACTINFO_BILL_PHONE',
+                    ),
+                    array(
+                        'col' => 4,
+                        'type' => 'text',
+                        'prefix' => '<i class="icon icon-info"></i>',
+                        'label' => 'Dział faktur - 1',
+                        'name' => 'FOOTERCONTACTINFO_BILL_EMAIL',
                     ),
                 ),
                 'submit' => array(
@@ -190,11 +224,18 @@ class Footercontactinfo extends Module
     {
         return array(
             'FOOTERCONTACTINFO_LIVE_MODE' => Configuration::get('FOOTERCONTACTINFO_LIVE_MODE', true),
-            'FOOTERCONTACTINFO_INFO1' => Configuration::get('FOOTERCONTACTINFO_INFO1'),
-            'FOOTERCONTACTINFO_INFO2' => Configuration::get('FOOTERCONTACTINFO_INFO2'),
 
-            'FOOTERCONTACTINFO_SUPPORT' => Configuration::get('FOOTERCONTACTINFO_SUPPORT'),
-            'FOOTERCONTACTINFO_BILL' => Configuration::get('FOOTERCONTACTINFO_BILL')
+            'FOOTERCONTACTINFO_INFO1_CITY' => Configuration::get('FOOTERCONTACTINFO_INFO1_CITY'),
+            'FOOTERCONTACTINFO_INFO2_STREET' => Configuration::get('FOOTERCONTACTINFO_INFO1_STREET'),
+
+            'FOOTERCONTACTINFO_INFO2_EMAIl' => Configuration::get('FOOTERCONTACTINFO_INFO2_EMAIL'),
+            'FOOTERCONTACTINFO_INFO2_PHONE' => Configuration::get('FOOTERCONTACTINFO_INFO2_PHONE'),
+
+            'FOOTERCONTACTINFO_SUPPORT_PHONE' => Configuration::get('FOOTERCONTACTINFO_SUPPORT_PHONE'),
+            'FOOTERCONTACTINFO_SUPPORT_EMAIL' => Configuration::get('FOOTERCONTACTINFO_SUPPORT_EMAIL'),
+
+            'FOOTERCONTACTINFO_BILL_PHONE' => Configuration::get('FOOTERCONTACTINFO_BILL_PHONE'),
+            'FOOTERCONTACTINFO_BILL_EMAILL' => Configuration::get('FOOTERCONTACTINFO_BILL_EMAIL'),
         );
     }
 
@@ -233,10 +274,17 @@ class Footercontactinfo extends Module
     public function hookDisplayFooterContactInfo()
     {
         $this->context->smarty->assign(array(
-            'bill' => Configuration::get('FOOTERCONTACTINFO_BILL'),
-            'support' => Configuration::get('FOOTERCONTACTINFO_SUPPORT'),
-            'info1' => Configuration::get('FOOTERCONTACTINFO_INFO1'),
-            'info2' => Configuration::get('FOOTERCONTACTINFO_INFO2')
+            'info1City' => Configuration::get('FOOTERCONTACTINFO_INFO1_CITY'),
+            'info1Street' => Configuration::get('FOOTERCONTACTINFO_INFO1_STREET'),
+
+            'info2Email' => Configuration::get('FOOTERCONTACTINFO_INFO2_EMAIL'),
+            'info2Phone' => Configuration::get('FOOTERCONTACTINFO_INFO2_PHONE'),
+
+            'supportPhone' => Configuration::get('FOOTERCONTACTINFO_SUPPORT_PHONE'),
+            'supportEmail' => Configuration::get('FOOTERCONTACTINFO_SUPPORT_EMAIL'),
+
+            'billPhone' => Configuration::get('FOOTERCONTACTINFO_BILL_PHONE'),
+            'billEmail' => Configuration::get('FOOTERCONTACTINFO_BILL_EMAIL'),
         ));
 
         return $this->display(__FILE__, 'views/templates/front/front.tpl');
